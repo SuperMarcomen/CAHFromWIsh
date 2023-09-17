@@ -1,13 +1,15 @@
 package it.marcodemartino.cah.game.cards;
 
+import it.marcodemartino.cah.game.collections.RandomArrayList;
+
 import java.util.List;
 
 public class Deck {
 
-    private final List<WhiteCard> whiteCards;
-    private final List<BlackCard> blackCards;
+    private final RandomArrayList<WhiteCard> whiteCards;
+    private final RandomArrayList<BlackCard> blackCards;
 
-    public Deck(List<WhiteCard> whiteCards, List<BlackCard> blackCards) {
+    public Deck(RandomArrayList<WhiteCard> whiteCards, RandomArrayList<BlackCard> blackCards) {
         this.whiteCards = whiteCards;
         this.blackCards = blackCards;
     }

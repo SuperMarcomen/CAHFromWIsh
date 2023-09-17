@@ -3,6 +3,7 @@ package it.marcodemartino.cah.server;
 import it.marcodemartino.cah.server.commands.Command;
 import it.marcodemartino.cah.server.commands.CreateNewGameCommand;
 import it.marcodemartino.cah.server.commands.JoinGameCommand;
+import it.marcodemartino.cah.server.commands.StartGameCommand;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
@@ -62,6 +63,7 @@ public class ClientHandler extends Thread {
     private void registerCommands() {
         commands.put("new_game", new CreateNewGameCommand(in, out, gameManager));
         commands.put("join_game", new JoinGameCommand(in, out, gameManager));
+        commands.put("start_game", new StartGameCommand(in, out, gameManager));
     }
 
     private Optional<String> getInput() {

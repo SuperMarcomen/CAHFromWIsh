@@ -1,5 +1,6 @@
 package it.marcodemartino.cah.game.cards;
 
+import it.marcodemartino.cah.game.collections.RandomArrayList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
@@ -8,9 +9,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
 
 public class DiskDeckBuilder implements DeckBuilder {
 
@@ -22,19 +20,19 @@ public class DiskDeckBuilder implements DeckBuilder {
             String content = new String(Files.readAllBytes(path));
             JSONObject jsonObject = new JSONObject(content);
 
-            List<WhiteCard> whiteCards = parseWhiteCards(jsonObject);
-            List<BlackCard> blackCards = parseBlackCards(jsonObject);
+            RandomArrayList<WhiteCard> whiteCards = parseWhiteCards(jsonObject);
+            RandomArrayList<BlackCard> blackCards = parseBlackCards(jsonObject);
 
             return new Deck(whiteCards, blackCards);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new Deck(Collections.emptyList(), Collections.emptyList());
+        return new Deck(new RandomArrayList<>(), new RandomArrayList<>());
     }
 
-    private List<WhiteCard> parseWhiteCards(JSONObject jsonObject) {
+    private RandomArrayList<WhiteCard> parseWhiteCards(JSONObject jsonObject) {
         logger.info("Parsing white cards from disk");
-        List<WhiteCard> whiteCards = new LinkedList<>();
+        RandomArrayList<WhiteCard> whiteCards = new RandomArrayList<>();
         JSONArray whiteArray = jsonObject.getJSONArray("white");
         for (int i = 0; i < whiteArray.length(); i++) {
             whiteCards.add(new WhiteCard(whiteArray.getString(i)));
@@ -42,9 +40,9 @@ public class DiskDeckBuilder implements DeckBuilder {
         return whiteCards;
     }
 
-    private List<BlackCard> parseBlackCards(JSONObject jsonObject) {
+    private RandomArrayList<BlackCard> parseBlackCards(JSONObject jsonObject) {
         logger.info("Parsing black cards from disk");
-        List<BlackCard> blackCards = new LinkedList<>();
+        RandomArrayList<BlackCard> blackCards = new RandomArrayList<>();
         JSONArray blackArray = jsonObject.getJSONArray("black");
         for (int i = 0; i < blackArray.length(); i++) {
             JSONObject blackObject = blackArray.getJSONObject(i);
