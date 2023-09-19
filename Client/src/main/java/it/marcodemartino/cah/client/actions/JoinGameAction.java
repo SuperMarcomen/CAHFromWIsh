@@ -27,15 +27,4 @@ public class JoinGameAction implements Action {
                 .put("player_name", player.getName())
                 .toString();
     }
-
-    @Override
-    public void handleResponse(String response) {
-        String status = new JSONObject(response)
-                .getString("status");
-        if (status.equals("ok")) {
-            logger.info("Player {} with UUID {} joined a game with UUID {}", player.getName(), player.getUuid(), gameUUID.toString());
-        } else {
-            logger.warn("The response after joining the game {} was: {}", gameUUID.toString(), status);
-        }
-    }
 }

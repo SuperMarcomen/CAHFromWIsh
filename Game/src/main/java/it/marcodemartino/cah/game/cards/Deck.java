@@ -14,6 +14,14 @@ public class Deck {
         this.blackCards = blackCards;
     }
 
+    public WhiteCard getRandomWhiteCard() {
+        return whiteCards.removeRandom();
+    }
+
+    public BlackCard getRandomBlackCard() {
+        return blackCards.removeRandom();
+    }
+
     public List<WhiteCard> getWhiteCards() {
         return whiteCards;
     }

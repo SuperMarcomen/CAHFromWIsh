@@ -22,15 +22,4 @@ public class StartGameAction implements Action {
                 .put("game_uuid", gameUUID)
                 .toString();
     }
-
-    @Override
-    public void handleResponse(String response) {
-        String status = new JSONObject(response)
-                .getString("status");
-        if (status.equals("ok")) {
-            logger.info("The game with UUID {} was started", gameUUID.toString());
-        } else {
-            logger.warn("The response after starting the game {} was: {}", gameUUID.toString(), status);
-        }
-    }
 }

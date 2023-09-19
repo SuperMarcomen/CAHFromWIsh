@@ -30,7 +30,7 @@ public class CreateNewGameCommand extends Command {
 
     private String generateResponse(UUID uuid) {
         return new JSONObject()
-                .put("method", "game_uuid")
+                .put("method", "game_created")
                 .put("uuid", uuid.toString())
                 .toString();
     }

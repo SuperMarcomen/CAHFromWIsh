@@ -4,13 +4,12 @@ import it.marcodemartino.cah.client.Client;
 import it.marcodemartino.cah.client.Invoker;
 import it.marcodemartino.cah.client.game.GameManager;
 import it.marcodemartino.cah.game.Player;
+import it.marcodemartino.cah.server.entity.RemotePlayer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class JoinGameActionTest {
 
@@ -25,7 +24,7 @@ class JoinGameActionTest {
         Invoker invoker = new Invoker(client);
         invoker.execute(createGame);
 
-        Player player = new Player("Marco", UUID.randomUUID());
+        Player player = new RemotePlayer("Marco", UUID.randomUUID(), null);
         Action joinGame = new JoinGameAction(player, gameManager.getGame().getUuid());
         invoker.execute(joinGame);
 

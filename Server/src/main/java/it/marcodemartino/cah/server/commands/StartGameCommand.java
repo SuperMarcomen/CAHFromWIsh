@@ -1,7 +1,6 @@
 package it.marcodemartino.cah.server.commands;
 
 import it.marcodemartino.cah.game.Game;
-import it.marcodemartino.cah.game.Player;
 import it.marcodemartino.cah.server.GameManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,14 +24,7 @@ public class StartGameCommand extends Command {
     public void execute(String input) {
         JSONObject object = new JSONObject(input);
         Game game = gameManager.getGame(UUID.fromString(object.getString("game_uuid")));
-        Player player = new Player(object.getString("player_name"), UUID.fromString(object.getString("player_uuid")));
-        game.addPlayer(player);
-
-        String response = new JSONObject()
-                .put("status", "ok")
-                .toString();
-
-        out.println(response);
-        logger.info("Player {} with UUID {} joined a game with UUID {}", player.getName(), player.getUuid(), object.getString("game_uuid"));
+        game.sendStartCardsToAllPlayer();
+        logger.info("Started a game with UUID {}", object.getString("game_uuid"));
     }
 }
