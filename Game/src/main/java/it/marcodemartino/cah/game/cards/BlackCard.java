@@ -17,4 +17,10 @@ public class BlackCard {
     public int getNumberOfParameters() {
         return numberOfParameters;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof BlackCard other)) return false;
+        return text.equals(other.getText()) && numberOfParameters == other.getNumberOfParameters();
+    }
 }

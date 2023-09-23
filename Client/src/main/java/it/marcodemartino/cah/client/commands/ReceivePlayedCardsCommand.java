@@ -3,6 +3,7 @@ package it.marcodemartino.cah.client.commands;
 import it.marcodemartino.cah.client.game.GameManager;
 import it.marcodemartino.cah.client.ui.scenes.SceneController;
 import it.marcodemartino.cah.game.cards.WhiteCard;
+import javafx.application.Platform;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
@@ -44,6 +45,6 @@ public class ReceivePlayedCardsCommand extends Command {
             cardsMap.put(playerName, whiteCards);
         }
         gameManager.getGame().setAllPlayedCards(cardsMap);
-        sceneController.activate("play_cards");
+        Platform.runLater(() -> sceneController.activate("show_all_cards"));
     }
 }

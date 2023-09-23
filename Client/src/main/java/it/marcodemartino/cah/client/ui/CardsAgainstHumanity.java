@@ -7,6 +7,7 @@ import it.marcodemartino.cah.client.ui.scenes.JoinGameScene;
 import it.marcodemartino.cah.client.ui.scenes.MainScene;
 import it.marcodemartino.cah.client.ui.scenes.PlayCardsScene;
 import it.marcodemartino.cah.client.ui.scenes.SceneController;
+import it.marcodemartino.cah.client.ui.scenes.ShowCardsScene;
 import it.marcodemartino.cah.client.ui.scenes.StartGameScene;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -25,12 +26,11 @@ public class CardsAgainstHumanity extends Application {
         sceneController.addScreen("start_game", new StartGameScene(invoker, gameManager, sceneController));
         sceneController.addScreen("join_game", new JoinGameScene(invoker, gameManager));
         sceneController.addScreen("play_cards", new PlayCardsScene(gameManager, invoker));
+        sceneController.addScreen("show_all_cards", new ShowCardsScene(gameManager, sceneController));
 
         MainScene mainScene = new MainScene(invoker, gameManager, sceneController);
-        Scene scene = new Scene(mainScene, 1500, 600);
+        Scene scene = new Scene(mainScene, 1500, 800);
         sceneController.setMain(scene);
-
-
 
         primaryStage.setTitle("Hello World!");
         primaryStage.setScene(scene);

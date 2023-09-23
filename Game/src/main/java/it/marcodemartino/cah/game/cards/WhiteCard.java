@@ -11,4 +11,10 @@ public class WhiteCard {
     public String getText() {
         return text;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof WhiteCard other)) return false;
+        return text.equals(other.getText());
+    }
 }

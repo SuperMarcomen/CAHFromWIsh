@@ -6,6 +6,8 @@ import it.marcodemartino.cah.client.actions.StartGameAction;
 import it.marcodemartino.cah.client.game.GameManager;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -25,6 +27,11 @@ public class StartGameScene extends InitPane {
 
     @Override
     public void init() {
+        Clipboard clipboard = Clipboard.getSystemClipboard();
+        ClipboardContent content = new ClipboardContent();
+        content.putString(gameManager.getGame().getUuid().toString());
+        clipboard.setContent(content);
+
         VBox mainContainer = new VBox();
 
         Label titleLabel = new Label("Cards Against Humanity");

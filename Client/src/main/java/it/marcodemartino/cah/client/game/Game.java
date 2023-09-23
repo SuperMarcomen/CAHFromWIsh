@@ -16,6 +16,7 @@ public class Game {
     private BlackCard blackCard;
     private Player player;
     private final List<WhiteCard> whiteCards;
+    private final List<WhiteCard> selectedCards;
     private final List<WhiteCard> playedCards;
     private final Map<String, List<WhiteCard>> allPlayedCards;
 
@@ -23,7 +24,24 @@ public class Game {
         this.uuid = uuid;
         whiteCards = new ArrayList<>();
         playedCards = new ArrayList<>();
+        selectedCards = new ArrayList<>();
         allPlayedCards = new HashMap<>();
+    }
+
+    public boolean areEnoughCardsSelected() {
+        return selectedCards.size() == blackCard.getNumberOfParameters();
+    }
+
+    public boolean isCardSelected(WhiteCard whiteCard) {
+        return selectedCards.contains(whiteCard);
+    }
+
+    public void selectCard(WhiteCard whiteCard) {
+        selectedCards.add(whiteCard);
+    }
+
+    public void unselectCard(WhiteCard whiteCard) {
+        selectedCards.remove(whiteCard);
     }
 
     public void setAllPlayedCards(Map<String, List<WhiteCard>> allPlayedCards) {
@@ -66,5 +84,9 @@ public class Game {
 
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+    public List<WhiteCard> getSelectedCards() {
+        return selectedCards;
     }
 }
