@@ -18,11 +18,24 @@ public class Game {
     private final Set<UUID> hasPlayed;
     private static final int START_CARDS = 10;
     private final Deck deck;
+    private int cardsRequired;
 
     public Game(Deck deck) {
         this.players = new HashMap<>();
         this.hasPlayed = new HashSet<>();
         this.deck = deck;
+    }
+
+    public void sendNewRoundCardsToAllPlayers() {
+        BlackCard blackCard = deck.getRandomBlackCard();
+        RandomArrayList<BlackCard> blackCards = new RandomArrayList<>();
+        blackCards.add(blackCard);
+        RandomArrayList<WhiteCard> whiteCards = pickXCards(cardsRequired);
+
+        cardsRequired = blackCard.getNumberOfParameters();
+        for (Player player : players.values()) {
+            player.sendCards(new Deck(whiteCards, blackCards));
+        }
     }
 
     public void sendPlayedCardsToAllPlayers() {
@@ -52,7 +65,9 @@ public class Game {
 
     public void sendStartCardsToAllPlayer() {
         RandomArrayList<BlackCard> blackCard = new RandomArrayList<>();
-        blackCard.add(deck.getRandomBlackCard());
+        BlackCard randomBlackCard = deck.getRandomBlackCard();
+        cardsRequired = randomBlackCard.getNumberOfParameters();
+        blackCard.add(randomBlackCard);
         for (Player player : players.values()) {
             player.sendCards(new Deck(pickXCards(START_CARDS), blackCard));
         }

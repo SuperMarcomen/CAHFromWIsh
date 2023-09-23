@@ -30,6 +30,8 @@ public class PlayCardsScene extends InitPane {
 
     @Override
     public void init() {
+        getChildren().clear();
+        System.out.println("Init called");
         alreadyPlayed = false;
         VBox mainContainer = new VBox();
         BlackCard blackCard = gameManager.getGame().getBlackCard();
@@ -63,7 +65,8 @@ public class PlayCardsScene extends InitPane {
         }
 
         Button playCardsButton = new Button("Play cards");
-        playCardsButton.setOnMouseClicked(e -> {
+        playCardsButton.setOnAction(e -> {
+            System.out.println("click");
             if (alreadyPlayed) {
                 showAlert("You already played in this round!");
                 return;

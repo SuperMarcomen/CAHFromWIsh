@@ -24,6 +24,7 @@ public class WhiteCardElement extends HBox {
 
         setOnMouseClicked(e -> {
             Game game = gameManager.getGame();
+            System.out.println("click");
             if (game.isCardSelected(whiteCard)) {
                 setStyle("-fx-background-color: #aca2a2;");
                 game.unselectCard(whiteCard);

@@ -35,5 +35,6 @@ public class PlayCardsCommand extends Command {
 
         if (!game.haveAllPlayersPlayed()) return;
         game.sendPlayedCardsToAllPlayers();
+        game.sendNewRoundCardsToAllPlayers();
     }
 }

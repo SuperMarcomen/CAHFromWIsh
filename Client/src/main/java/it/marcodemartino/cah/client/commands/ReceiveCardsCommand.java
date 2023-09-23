@@ -20,11 +20,13 @@ public class ReceiveCardsCommand extends Command {
     private static final Logger logger = LogManager.getLogger();
     private final GameManager gameManager;
     private final SceneController sceneController;
+    private boolean firstRound;
 
     public ReceiveCardsCommand(PrintWriter out, GameManager gameManager, SceneController sceneController) {
         super(out);
         this.gameManager = gameManager;
         this.sceneController = sceneController;
+        this.firstRound = true;
     }
 
     @Override
@@ -49,7 +51,10 @@ public class ReceiveCardsCommand extends Command {
             gameManager.getGame().setBlackCard(blackCards.get(0));
         }
 
-        Platform.runLater(() -> sceneController.activate("play_cards"));
+        if (firstRound) {
+            Platform.runLater(() -> sceneController.activate("play_cards"));
+            firstRound = false;
+        }
 
     }
 
