@@ -1,8 +1,12 @@
 package it.marcodemartino.cah.client.commands;
 
 import it.marcodemartino.cah.client.game.GameManager;
+import it.marcodemartino.cah.client.ui.scenes.SceneController;
 import it.marcodemartino.cah.game.cards.BlackCard;
 import it.marcodemartino.cah.game.cards.WhiteCard;
+import javafx.application.Platform;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -13,15 +17,19 @@ import java.util.List;
 
 public class ReceiveCardsCommand extends Command {
 
+    private static final Logger logger = LogManager.getLogger();
     private final GameManager gameManager;
+    private final SceneController sceneController;
 
-    public ReceiveCardsCommand(PrintWriter out, GameManager gameManager) {
+    public ReceiveCardsCommand(PrintWriter out, GameManager gameManager, SceneController sceneController) {
         super(out);
         this.gameManager = gameManager;
+        this.sceneController = sceneController;
     }
 
     @Override
     public void execute(String input) {
+        logger.info("Cards received");
         JSONObject jsonObject = new JSONObject(input);
         List<WhiteCard> whiteCards = Collections.emptyList();
         if (jsonObject.has("whitecards")) {
@@ -40,6 +48,9 @@ public class ReceiveCardsCommand extends Command {
         if (!blackCards.isEmpty()) {
             gameManager.getGame().setBlackCard(blackCards.get(0));
         }
+
+        Platform.runLater(() -> sceneController.activate("play_cards"));
+
     }
 
     private List<WhiteCard> buildWhiteCards(JSONArray jsonArray) {

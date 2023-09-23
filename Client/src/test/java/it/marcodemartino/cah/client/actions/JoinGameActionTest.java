@@ -20,12 +20,12 @@ class JoinGameActionTest {
         client.startConnection("127.0.0.1", 6666);
 
         GameManager gameManager = new GameManager();
-        Action createGame = new CreateGameAction(gameManager);
+        Action createGame = new CreateGameAction();
         Invoker invoker = new Invoker(client);
         invoker.execute(createGame);
 
         Player player = new RemotePlayer("Marco", UUID.randomUUID(), null);
-        Action joinGame = new JoinGameAction(player, gameManager.getGame().getUuid());
+        Action joinGame = new JoinGameAction(gameManager, player.getUuid(), player.getName(), gameManager.getGame().getUuid());
         invoker.execute(joinGame);
 
         client.stopConnection();

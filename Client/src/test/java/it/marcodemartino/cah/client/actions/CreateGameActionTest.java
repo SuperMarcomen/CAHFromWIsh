@@ -17,7 +17,7 @@ class CreateGameActionTest {
         client.startConnection("127.0.0.1", 6666);
 
         GameManager gameManager = new GameManager();
-        Action createGame = new CreateGameAction(gameManager);
+        Action createGame = new CreateGameAction();
         Invoker invoker = new Invoker(client);
         invoker.execute(createGame);
 

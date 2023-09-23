@@ -17,6 +17,7 @@ public class StartGameAction implements Action {
 
     @Override
     public String execute() {
+        logger.info("Sent request to start game");
         return new JSONObject()
                 .put("method", "start_game")
                 .put("game_uuid", gameUUID)

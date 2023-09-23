@@ -32,13 +32,13 @@ class StartGameActionTest {
         Thread.sleep(5000);
 
         GameManager gameManager = client[0].getGameManager();
-        Action createGame = new CreateGameAction(gameManager);
+        Action createGame = new CreateGameAction();
         Invoker invoker = new Invoker(client[0]);
         invoker.execute(createGame);
         Thread.sleep(1000);
 
         Player player = new RemotePlayer("Marco", UUID.randomUUID(), null);
-        Action joinGame = new JoinGameAction(player, gameManager.getGame().getUuid());
+        Action joinGame = new JoinGameAction(gameManager, player, gameManager.getGame().getUuid());
         invoker.execute(joinGame);
 
         Action startGame = new StartGameAction(gameManager.getGame().getUuid());

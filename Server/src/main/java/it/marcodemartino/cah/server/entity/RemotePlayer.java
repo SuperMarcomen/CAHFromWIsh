@@ -10,6 +10,8 @@ import org.json.JSONObject;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 
 public class RemotePlayer implements Player {
@@ -33,6 +35,30 @@ public class RemotePlayer implements Player {
         this.playedCards.clear();
         this.playedCards.addAll(playedCards);
         cards.removeAll(playedCards);
+    }
+
+    @Override
+    public void sendCardsToAllPlayers(Map<Player, List<WhiteCard>> cardsMap) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("method", "send_all_cards");
+        JSONArray players = new JSONArray();
+        for (Entry<Player, List<WhiteCard>> playerListEntry : cardsMap.entrySet()) {
+            Player player = playerListEntry.getKey();
+            List<WhiteCard> playedWhiteCards = playerListEntry.getValue();
+            JSONObject playerBlock = new JSONObject();
+            playerBlock.put("player_name", player.getName());
+            JSONArray cardsObj = new JSONArray();
+            for (WhiteCard playedWhiteCard : playedWhiteCards) {
+                cardsObj.put(playedWhiteCard.getText());
+            }
+
+            playerBlock.put("played_cards", cardsObj);
+            players.put(playerBlock);
+        }
+        jsonObject.put("cards", players);
+        out.println(jsonObject);
+        out.flush();
+
     }
 
     @Override
@@ -83,5 +109,10 @@ public class RemotePlayer implements Player {
     @Override
     public List<WhiteCard> getCards() {
         return cards;
+    }
+
+    @Override
+    public List<WhiteCard> getPlayedCards() {
+        return playedCards;
     }
 }

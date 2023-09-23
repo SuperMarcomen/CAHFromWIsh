@@ -1,5 +1,6 @@
 package it.marcodemartino.cah.client.actions;
 
+import it.marcodemartino.cah.client.game.GameManager;
 import it.marcodemartino.cah.game.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,16 +11,24 @@ import java.util.UUID;
 public class JoinGameAction implements Action {
 
     private static final Logger logger = LogManager.getLogger();
-    private final Player player;
+    private final GameManager gameManager;
+    private final UUID playerUUID;
+    private final String playerName;
     private final UUID gameUUID;
 
-    public JoinGameAction(Player player, UUID gameUUID) {
-        this.player = player;
+    public JoinGameAction(GameManager gameManager, UUID playerUUID, String playerName, UUID gameUUID) {
+        this.gameManager = gameManager;
+        this.playerUUID = playerUUID;
+        this.playerName = playerName;
         this.gameUUID = gameUUID;
     }
 
     @Override
     public String execute() {
+        logger.info("Sent request to join game");
+        Player player = gameManager.getPlayer();
+        gameManager.createGameWithUUID(gameUUID);
+        gameManager.getGame().setPlayer(player);
         return new JSONObject()
                 .put("method", "join_game")
                 .put("game_uuid", gameUUID)

@@ -3,7 +3,9 @@ package it.marcodemartino.cah.client;
 import it.marcodemartino.cah.client.commands.Command;
 import it.marcodemartino.cah.client.commands.GameCreatedCommand;
 import it.marcodemartino.cah.client.commands.ReceiveCardsCommand;
+import it.marcodemartino.cah.client.commands.ReceivePlayedCardsCommand;
 import it.marcodemartino.cah.client.game.GameManager;
+import it.marcodemartino.cah.client.ui.scenes.SceneController;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
@@ -17,31 +19,32 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class Client implements Runnable {
+public class Client extends Thread {
 
     private static final Logger logger = LogManager.getLogger();
     private final Map<String, Command> commands;
 
     private final GameManager gameManager;
+    private final SceneController sceneController;
 
     private BufferedReader in;
     private PrintWriter out;
     private Socket socket;
     private boolean running;
 
-    public Client() {
+    public Client(GameManager gameManager, SceneController sceneController) {
+        this.sceneController = sceneController;
         this.commands = new HashMap<>();
         running = true;
-        gameManager = new GameManager();
+        this.gameManager = gameManager;
         registerActions();
     }
 
     public void run() {
-        System.out.println("hi");
+       logger.info("Starting to listening to inputs");
         while (running) {
             Optional<String> input = getInput();
             if (input.isEmpty()) continue;
-            System.out.println(input.get());
             String methodName = new JSONObject(input.get())
                     .getString("method");
             Command command = commands.get(methodName);
@@ -49,6 +52,16 @@ public class Client implements Runnable {
 
             command.execute(input.get());
         }
+    }
+
+    @Override
+    public synchronized void start() {
+        try {
+            startConnection("127.0.0.1", 6666);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        super.start();
     }
 
     public void startConnection(String ip, int port) throws IOException {
@@ -92,7 +105,8 @@ public class Client implements Runnable {
 
     private void registerActions() {
         commands.put("game_created", new GameCreatedCommand(out, gameManager));
-        commands.put("send_cards", new ReceiveCardsCommand(out, gameManager));
+        commands.put("send_cards", new ReceiveCardsCommand(out, gameManager, sceneController));
+        commands.put("send_all_cards", new ReceivePlayedCardsCommand(out, gameManager, sceneController));
     }
 
     public GameManager getGameManager() {

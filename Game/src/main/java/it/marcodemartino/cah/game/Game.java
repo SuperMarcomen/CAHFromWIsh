@@ -5,7 +5,6 @@ import it.marcodemartino.cah.game.cards.Deck;
 import it.marcodemartino.cah.game.cards.WhiteCard;
 import it.marcodemartino.cah.game.collections.RandomArrayList;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -26,6 +25,25 @@ public class Game {
         this.deck = deck;
     }
 
+    public void sendPlayedCardsToAllPlayers() {
+        Map<Player, List<WhiteCard>> cardsMap = generateCardsMap();
+        for (Player player : players.values()) {
+            player.sendCardsToAllPlayers(cardsMap);
+        }
+    }
+
+    private Map<Player, List<WhiteCard>> generateCardsMap() {
+        Map<Player, List<WhiteCard>> cardsMap = new HashMap<>();
+        for (Player player : players.values()) {
+            cardsMap.put(player, player.getPlayedCards());
+        }
+        return cardsMap;
+    }
+
+    public boolean haveAllPlayersPlayed() {
+        return hasPlayed.size() == players.size();
+    }
+
     public void playCards(UUID uuid, List<WhiteCard> whiteCards) {
         Player player = players.get(uuid);
         player.setPlayedCards(whiteCards);
@@ -35,7 +53,7 @@ public class Game {
     public void sendStartCardsToAllPlayer() {
         RandomArrayList<BlackCard> blackCard = new RandomArrayList<>();
         blackCard.add(deck.getRandomBlackCard());
-        for (Player player : players) {
+        for (Player player : players.values()) {
             player.sendCards(new Deck(pickXCards(START_CARDS), blackCard));
         }
     }
@@ -50,6 +68,6 @@ public class Game {
     }
 
     public void addPlayer(Player player) {
-        players.add(player);
+        players.put(player.getUuid(), player);
     }
 }
