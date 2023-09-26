@@ -27,6 +27,7 @@ public class Game {
     }
 
     public void sendNewRoundCardsToAllPlayers() {
+        hasPlayed.clear();
         BlackCard blackCard = deck.getRandomBlackCard();
         RandomArrayList<BlackCard> blackCards = new RandomArrayList<>();
         blackCards.add(blackCard);

@@ -88,7 +88,6 @@ public class RemotePlayer implements Player {
 
         out.println(jsonObject);
         out.flush();
-        System.out.println("Cards sent");
     }
 
     @Override
