@@ -13,7 +13,8 @@ import java.util.UUID;
 public class Game {
 
     private final UUID uuid;
-    private BlackCard blackCard;
+    private BlackCard newBlackCard;
+    private BlackCard oldBlackCard;
     private Player player;
     private final List<WhiteCard> whiteCards;
     private final List<WhiteCard> selectedCards;
@@ -29,7 +30,7 @@ public class Game {
     }
 
     public boolean areEnoughCardsSelected() {
-        return selectedCards.size() == blackCard.getNumberOfParameters();
+        return selectedCards.size() == newBlackCard.getNumberOfParameters();
     }
 
     public boolean isCardSelected(WhiteCard whiteCard) {
@@ -52,10 +53,11 @@ public class Game {
     public void playCards(List<WhiteCard> cardsCurrentlyPlayed) {
         playedCards.addAll(cardsCurrentlyPlayed);
         whiteCards.removeAll(cardsCurrentlyPlayed);
+        selectedCards.removeAll(cardsCurrentlyPlayed);
     }
 
-    public BlackCard getBlackCard() {
-        return blackCard;
+    public BlackCard getNewBlackCard() {
+        return newBlackCard;
     }
 
     public List<WhiteCard> getWhiteCards() {
@@ -66,8 +68,9 @@ public class Game {
         this.whiteCards.addAll(whiteCards);
     }
 
-    public void setBlackCard(BlackCard blackCard) {
-        this.blackCard = blackCard;
+    public void setNewBlackCard(BlackCard newBlackCard) {
+        this.oldBlackCard = this.newBlackCard;
+        this.newBlackCard = newBlackCard;
     }
 
     public UUID getUuid() {
@@ -88,5 +91,9 @@ public class Game {
 
     public List<WhiteCard> getSelectedCards() {
         return selectedCards;
+    }
+
+    public BlackCard getOldBlackCard() {
+        return oldBlackCard;
     }
 }

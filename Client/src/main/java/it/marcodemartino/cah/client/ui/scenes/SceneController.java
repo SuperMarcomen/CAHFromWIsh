@@ -13,7 +13,9 @@ public class SceneController {
         screenMap = new HashMap<>();
     }
 
-    public void addScreen(String name, InitPane pane){
+    public void addScreen(String name, InitPane pane) {
+        pane.prefWidthProperty().bind(main.widthProperty());
+        pane.prefHeightProperty().bind(main.heightProperty());
         screenMap.put(name, pane);
     }
 

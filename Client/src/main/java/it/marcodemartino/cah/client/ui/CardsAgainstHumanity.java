@@ -23,14 +23,15 @@ public class CardsAgainstHumanity extends Application {
         client.start();
         Invoker invoker = new Invoker(client);
 
-        sceneController.addScreen("start_game", new StartGameScene(invoker, gameManager, sceneController));
-        sceneController.addScreen("join_game", new JoinGameScene(invoker, gameManager));
-        sceneController.addScreen("play_cards", new PlayCardsScene(gameManager, invoker));
-        sceneController.addScreen("show_all_cards", new ShowCardsScene(gameManager, sceneController));
 
         MainScene mainScene = new MainScene(invoker, gameManager, sceneController);
         Scene scene = new Scene(mainScene, 1500, 800);
         sceneController.setMain(scene);
+
+        sceneController.addScreen("start_game", new StartGameScene(invoker, gameManager, sceneController));
+        sceneController.addScreen("join_game", new JoinGameScene(invoker, gameManager));
+        sceneController.addScreen("play_cards", new PlayCardsScene(gameManager, invoker));
+        sceneController.addScreen("show_all_cards", new ShowCardsScene(gameManager, sceneController));
 
         primaryStage.setTitle("Hello World!");
         primaryStage.setScene(scene);

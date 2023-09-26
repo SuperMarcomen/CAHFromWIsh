@@ -9,22 +9,11 @@ import javafx.scene.layout.HBox;
 
 public class WhiteCardElement extends HBox {
 
-    private final GameManager gameManager;
-
     public WhiteCardElement(WhiteCard whiteCard, GameManager gameManager) {
-        this.gameManager = gameManager;
-        setPrefWidth(200);
-        setMinWidth(200);
-        setMaxWidth(200);
-
-        setMinHeight(300);
-        setPrefHeight(300);
-        setMaxHeight(300);
         setPadding(new Insets(20));
 
         setOnMouseClicked(e -> {
             Game game = gameManager.getGame();
-            System.out.println("click");
             if (game.isCardSelected(whiteCard)) {
                 setStyle("-fx-background-color: #aca2a2;");
                 game.unselectCard(whiteCard);

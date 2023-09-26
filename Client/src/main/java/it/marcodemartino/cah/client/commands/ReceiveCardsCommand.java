@@ -48,7 +48,7 @@ public class ReceiveCardsCommand extends Command {
 
         gameManager.getGame().addWhiteCards(whiteCards);
         if (!blackCards.isEmpty()) {
-            gameManager.getGame().setBlackCard(blackCards.get(0));
+            gameManager.getGame().setNewBlackCard(blackCards.get(0));
         }
 
         if (firstRound) {

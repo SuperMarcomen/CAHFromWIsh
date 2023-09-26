@@ -19,7 +19,6 @@ public class PlayCardsAction implements Action {
 
     @Override
     public String execute() {
-        gameManager.getGame().playCards(whiteCards);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("method", "play_cards");
         jsonObject.put("game_uuid", gameManager.getGame().getUuid());
@@ -31,6 +30,7 @@ public class PlayCardsAction implements Action {
         }
 
         jsonObject.put("cards_played", cardsArray);
+        gameManager.getGame().playCards(List.copyOf(whiteCards));
         return jsonObject.toString();
     }
 }

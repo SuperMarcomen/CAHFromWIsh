@@ -26,7 +26,7 @@ public class ShowCardsScene extends InitPane {
     @Override
     public void init() {
         VBox mainContainer = new VBox();
-        BlackCard blackCard = gameManager.getGame().getBlackCard();
+        BlackCard blackCard = gameManager.getGame().getOldBlackCard();
         BlackCardElement blackCardElement = new BlackCardElement(blackCard.getText());
 
         HBox playersResults = new HBox();

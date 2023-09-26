@@ -46,7 +46,7 @@ class StartGameActionTest {
         Thread.sleep(5000);
 
         assertEquals(10, gameManager.getGame().getWhiteCards().size());
-        assertNotNull(gameManager.getGame().getBlackCard());
+        assertNotNull(gameManager.getGame().getNewBlackCard());
 
         thread.stop();
     }

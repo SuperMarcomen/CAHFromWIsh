@@ -31,10 +31,9 @@ public class PlayCardsScene extends InitPane {
     @Override
     public void init() {
         getChildren().clear();
-        System.out.println("Init called");
         alreadyPlayed = false;
         VBox mainContainer = new VBox();
-        BlackCard blackCard = gameManager.getGame().getBlackCard();
+        BlackCard blackCard = gameManager.getGame().getNewBlackCard();
         BlackCardElement blackCardElement = new BlackCardElement(blackCard.getText());
 
         String pluralS = blackCard.getNumberOfParameters() > 1 ? "s" : "";
@@ -51,22 +50,23 @@ public class PlayCardsScene extends InitPane {
         int halfSize = whiteCards.size() / 2;
 
         HBox cardsContainer1 = new HBox();
-        cardsContainer1.setSpacing(20);
-        for (int i = 0; i < halfSize; i++) {
-            WhiteCardElement whiteCardElement = new WhiteCardElement(whiteCards.get(i), gameManager);
-            cardsContainer1.getChildren().add(whiteCardElement);
-        }
-
         HBox cardsContainer2 = new HBox();
+        cardsContainer1.setSpacing(20);
         cardsContainer2.setSpacing(20);
-        for (int i = halfSize; i < whiteCards.size(); i++) {
-            WhiteCardElement whiteCardElement = new WhiteCardElement(whiteCards.get(i), gameManager);
-            cardsContainer2.getChildren().add(whiteCardElement);
+        for (int i = 0; i < halfSize; i++) {
+            WhiteCardElement whiteCardElement1 = new WhiteCardElement(whiteCards.get(i), gameManager);
+            whiteCardElement1.prefWidthProperty().bind(widthProperty().divide(6));
+            whiteCardElement1.prefHeightProperty().bind(whiteCardElement1.prefWidthProperty().multiply(1.5));
+            cardsContainer1.getChildren().add(whiteCardElement1);
+
+            WhiteCardElement whiteCardElement2 = new WhiteCardElement(whiteCards.get(whiteCards.size() - 1 - i), gameManager);
+            whiteCardElement2.prefWidthProperty().bind(widthProperty().divide(6));
+            whiteCardElement2.prefHeightProperty().bind(whiteCardElement2.prefWidthProperty().multiply(1.5));
+            cardsContainer2.getChildren().add(whiteCardElement2);
         }
 
         Button playCardsButton = new Button("Play cards");
         playCardsButton.setOnAction(e -> {
-            System.out.println("click");
             if (alreadyPlayed) {
                 showAlert("You already played in this round!");
                 return;
