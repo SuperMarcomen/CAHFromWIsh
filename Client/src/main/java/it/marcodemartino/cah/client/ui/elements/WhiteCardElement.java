@@ -9,24 +9,27 @@ import javafx.scene.layout.HBox;
 
 public class WhiteCardElement extends HBox {
 
-    public WhiteCardElement(WhiteCard whiteCard, GameManager gameManager) {
+    public WhiteCardElement(WhiteCard whiteCard, GameManager gameManager, boolean disabled) {
         setPadding(new Insets(20));
 
         setOnMouseClicked(e -> {
+            if (disabled) return;
             Game game = gameManager.getGame();
             if (game.isCardSelected(whiteCard)) {
-                setStyle("-fx-background-color: #aca2a2;");
+                getStyleClass().remove("whiteCardActivated");
+                getStyleClass().add("whiteCardDisabled");
                 game.unselectCard(whiteCard);
                 return;
             }
 
             if (game.areEnoughCardsSelected()) return;
 
-            setStyle("-fx-background-color: #d0be72;");
+            getStyleClass().add("whiteCardActivated");
+            getStyleClass().remove("whiteCardDisabled");
+
             game.selectCard(whiteCard);
 
         });
-        setStyle("-fx-background-color: #aca2a2;");
 
         Label cardText = new Label(whiteCard.getText());
         cardText.setWrapText(true);

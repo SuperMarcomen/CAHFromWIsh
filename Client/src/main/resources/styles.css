@@ -1,0 +1,93 @@
+@font-face {
+    font-family: 'Lato-Bold';
+    src: url("fonts/Lato/Lato-Bold.ttf");
+}
+
+@font-face {
+    font-family: 'Lato-Light';
+    src: url("fonts/Lato/Lato-Light.ttf");
+}
+
+@font-face {
+    font-family: 'Lato-Regular';
+    src: url("fonts/Lato/Lato-Regular.ttf");
+}
+
+
+.text {
+    -fx-font-smoothing-type: gray;
+    -fx-font-family: "Lato Bold", sans-serif;
+    -fx-text-fill: #FFFFFF;
+}
+
+
+#background {
+    -fx-background-color: #2A2929;
+}
+
+.label, Text {
+    -fx-font-size: 2em;
+    -fx-text-fill: #FFFFFF;
+    -fx-fill: #FFFFFF;
+}
+
+.button {
+    -fx-font-family: "Lato Bold", sans-serif;
+    -fx-font-size: 2em;
+    -fx-border-color: transparent;
+    -fx-background-color: white;
+    -fx-text-fill: #2A2929;
+}
+
+.bold {
+    -fx-font-family: 'Lato Bold';
+}
+
+.regular {
+    -fx-font-family: 'Lato Regular';
+}
+
+
+#titleLabel {
+    -fx-font-family: "Lato Bold", sans-serif;
+    -fx-font-size: 4em;
+}
+
+.text-field {
+    -fx-border-color: grey;
+    -fx-border-width: 0 0 1 0;
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 2em;
+}
+
+.text-field:focused {
+    -fx-border-color: white;
+    -fx-border-width: 0 0 1 0;
+    -fx-background-color: transparent;
+}
+
+#blackCard {
+    -fx-background-color: #050505;
+}
+
+#blackCard * {
+    -fx-font-size: 1.5em;
+}
+
+#whiteCard * {
+    -fx-font-size: 1.5em;
+    -fx-text-fill: #2A2929;
+}
+
+.whiteCardDisabled {
+    -fx-background-color: #ECECEC;
+}
+
+.whiteCardDisabled > label {
+    -fx-text-fill: #2A2929;
+}
+
+.whiteCardActivated {
+    -fx-background-color: #a74f4f;
+}

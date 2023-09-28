@@ -4,11 +4,17 @@ import it.marcodemartino.cah.client.Invoker;
 import it.marcodemartino.cah.client.actions.Action;
 import it.marcodemartino.cah.client.actions.JoinGameAction;
 import it.marcodemartino.cah.client.game.GameManager;
+import it.marcodemartino.cah.client.ui.elements.LabelWrapper;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 import java.util.UUID;
@@ -26,15 +32,19 @@ public class JoinGameScene extends InitPane {
     @Override
     public void init() {
         VBox mainContainer = new VBox();
+        mainContainer.setPadding(new Insets(20));
+        setId("background");
 
-        Label titleLabel = new Label("Cards Against Humanity");
-        titleLabel.setId("titleLabel");
+        HBox titleLabel = new LabelWrapper("Cards Against Humanity", "titleLabel");
 
-        Label enterIdLabel = new Label("Enter the id of the game");
-        enterIdLabel.setId("enterIdLabel");
+        HBox enterIdLabel = new LabelWrapper("Enter the id of the game", "enterIdLabel");
 
         TextField idInputField = new TextField("DH76-PO86-DJE4-48DA");
         idInputField.setId("idInputField");
+        idInputField.prefWidthProperty().bind(widthProperty().divide(3));
+        HBox idInputFieldWrapper = new HBox(idInputField);
+        idInputFieldWrapper.prefWidthProperty().bind(widthProperty());
+        idInputFieldWrapper.setAlignment(Pos.CENTER);
 
         Button joinButton = new Button("Join the game");
         joinButton.setOnAction(e -> {
@@ -45,9 +55,19 @@ public class JoinGameScene extends InitPane {
             Action joinGame = new JoinGameAction(gameManager, gameManager.getPlayer().getUuid(), gameManager.getPlayer().getName(), UUID.fromString(idInputField.getText()));
             invoker.execute(joinGame);
         });
+        joinButton.prefWidthProperty().bind(widthProperty().divide(3));
+        joinButton.prefHeightProperty().bind(heightProperty().divide(10));
+        HBox joinButtonWrapper = new HBox(joinButton);
+        joinButtonWrapper.setAlignment(Pos.CENTER);
 
-        mainContainer.getChildren().addAll(titleLabel, enterIdLabel, idInputField, joinButton);
+        mainContainer.getChildren().addAll(titleLabel, createSpacer(), enterIdLabel, idInputFieldWrapper, createSpacer(), joinButtonWrapper, createSpacer());
         getChildren().add(mainContainer);
+    }
+
+    private Node createSpacer() {
+        Region spacer = new Region();
+        VBox.setVgrow(spacer, Priority.ALWAYS);
+        return spacer;
     }
 
     private void showAlert() {

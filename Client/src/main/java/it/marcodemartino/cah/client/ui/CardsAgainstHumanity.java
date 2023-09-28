@@ -23,7 +23,6 @@ public class CardsAgainstHumanity extends Application {
         client.start();
         Invoker invoker = new Invoker(client);
 
-
         MainScene mainScene = new MainScene(invoker, gameManager, sceneController);
         Scene scene = new Scene(mainScene, 1500, 800);
         sceneController.setMain(scene);
@@ -33,7 +32,9 @@ public class CardsAgainstHumanity extends Application {
         sceneController.addScreen("play_cards", new PlayCardsScene(gameManager, invoker));
         sceneController.addScreen("show_all_cards", new ShowCardsScene(gameManager, sceneController));
 
-        primaryStage.setTitle("Hello World!");
+        scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+
+        primaryStage.setTitle("Cards against humanity");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
