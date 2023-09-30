@@ -96,6 +96,16 @@ public class RemotePlayer implements Player {
     }
 
     @Override
+    public void notifyPlayerJoin(Player player) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("method", "notify_player_join");
+        jsonObject.put("player_uuid", player.getUuid());
+        jsonObject.put("player_name", player.getName());
+        out.println(jsonObject);
+        out.flush();
+    }
+
+    @Override
     public String getName() {
         return name;
     }

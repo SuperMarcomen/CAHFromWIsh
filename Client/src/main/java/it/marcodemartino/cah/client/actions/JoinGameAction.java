@@ -12,14 +12,10 @@ public class JoinGameAction implements Action {
 
     private static final Logger logger = LogManager.getLogger();
     private final GameManager gameManager;
-    private final UUID playerUUID;
-    private final String playerName;
     private final UUID gameUUID;
 
-    public JoinGameAction(GameManager gameManager, UUID playerUUID, String playerName, UUID gameUUID) {
+    public JoinGameAction(GameManager gameManager, UUID gameUUID) {
         this.gameManager = gameManager;
-        this.playerUUID = playerUUID;
-        this.playerName = playerName;
         this.gameUUID = gameUUID;
     }
 

@@ -49,6 +49,11 @@ public class DummyPlayer implements Player {
     }
 
     @Override
+    public void notifyPlayerJoin(Player player) {
+
+    }
+
+    @Override
     public List<WhiteCard> getCards() {
         return null;
     }

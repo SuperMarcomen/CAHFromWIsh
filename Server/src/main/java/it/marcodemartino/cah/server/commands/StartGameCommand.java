@@ -12,7 +12,7 @@ import java.util.UUID;
 
 public class StartGameCommand extends Command {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger(StartGameCommand.class);
     private final GameManager gameManager;
 
     public StartGameCommand(BufferedReader in, PrintWriter out, GameManager gameManager) {

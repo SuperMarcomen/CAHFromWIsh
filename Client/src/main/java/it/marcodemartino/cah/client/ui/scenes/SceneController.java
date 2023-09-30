@@ -1,5 +1,6 @@
 package it.marcodemartino.cah.client.ui.scenes;
 
+import javafx.beans.property.StringProperty;
 import javafx.scene.Scene;
 
 import java.util.HashMap;
@@ -7,6 +8,7 @@ import java.util.HashMap;
 public class SceneController {
 
     private final HashMap<String, InitPane> screenMap;
+    private StringProperty playersJoinedText;
     private Scene main;
 
     public SceneController() {
@@ -30,5 +32,13 @@ public class SceneController {
 
     public void setMain(Scene main) {
         this.main = main;
+    }
+
+    public StringProperty playersJoinedTextProperty() {
+        return playersJoinedText;
+    }
+
+    public void setPlayersJoinedText(StringProperty playersJoinedText) {
+        this.playersJoinedText = playersJoinedText;
     }
 }

@@ -2,6 +2,8 @@ package it.marcodemartino.cah.client.ui;
 
 import it.marcodemartino.cah.client.Client;
 import it.marcodemartino.cah.client.Invoker;
+import it.marcodemartino.cah.client.actions.Action;
+import it.marcodemartino.cah.client.actions.QuitAction;
 import it.marcodemartino.cah.client.game.GameManager;
 import it.marcodemartino.cah.client.ui.scenes.JoinGameScene;
 import it.marcodemartino.cah.client.ui.scenes.MainScene;
@@ -11,17 +13,26 @@ import it.marcodemartino.cah.client.ui.scenes.ShowCardsScene;
 import it.marcodemartino.cah.client.ui.scenes.StartGameScene;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class CardsAgainstHumanity extends Application {
 
+    private Client client;
+    private Invoker invoker;
+    private GameManager gameManager;
+
     @Override
     public void start(Stage primaryStage) {
-        GameManager gameManager = new GameManager();
+        Font.loadFont(getClass().getResourceAsStream("/fonts/Lato/Lato-Bold.ttf"), 16);
+        Font.loadFont(getClass().getResourceAsStream("/fonts/Lato/Lato-Regular.ttf"), 16);
+        Font.loadFont(getClass().getResourceAsStream("/fonts/Lato/Lato-Light.ttf"), 16);
+
+        gameManager = new GameManager();
         SceneController sceneController = new SceneController();
-        Client client = new Client(gameManager, sceneController);
+        client = new Client(gameManager, sceneController);
         client.start();
-        Invoker invoker = new Invoker(client);
+        invoker = new Invoker(client);
 
         MainScene mainScene = new MainScene(invoker, gameManager, sceneController);
         Scene scene = new Scene(mainScene, 1500, 800);
@@ -39,7 +50,11 @@ public class CardsAgainstHumanity extends Application {
         primaryStage.show();
     }
 
-    public static void main(String[] args) {
-        launch(args);
+    @Override
+    public void stop() throws Exception {
+        Action quitAction = new QuitAction(gameManager);
+        invoker.execute(quitAction);
+        client.stopConnection();
+        super.stop();
     }
 }

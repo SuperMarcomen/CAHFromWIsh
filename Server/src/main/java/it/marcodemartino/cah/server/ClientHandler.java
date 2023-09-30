@@ -4,6 +4,7 @@ import it.marcodemartino.cah.server.commands.Command;
 import it.marcodemartino.cah.server.commands.CreateNewGameCommand;
 import it.marcodemartino.cah.server.commands.JoinGameCommand;
 import it.marcodemartino.cah.server.commands.PlayCardsCommand;
+import it.marcodemartino.cah.server.commands.QuitCommand;
 import it.marcodemartino.cah.server.commands.StartGameCommand;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,7 +21,7 @@ import java.util.Optional;
 
 public class ClientHandler extends Thread {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger(ClientHandler.class);
     private final Socket client;
     private final Map<String, Command> commands;
     private final GameManager gameManager;
@@ -47,10 +48,7 @@ public class ClientHandler extends Thread {
         while ((inputLine = getInput()).isPresent()) {
             String input = inputLine.get();
 
-            if (input.equals("quit")) {
-                stopClient();
-                return;
-            }
+            if (input.isEmpty()) return;
 
             String methodName = new JSONObject(input)
                     .getString("method");
@@ -66,6 +64,7 @@ public class ClientHandler extends Thread {
         commands.put("join_game", new JoinGameCommand(in, out, gameManager));
         commands.put("start_game", new StartGameCommand(in, out, gameManager));
         commands.put("play_cards", new PlayCardsCommand(in, out, gameManager));
+        commands.put("quit", new QuitCommand(in, out, gameManager, client.getRemoteSocketAddress().toString()));
     }
 
     private Optional<String> getInput() {
@@ -76,18 +75,6 @@ public class ClientHandler extends Thread {
             logger.error("An error happened while reading for a new input");
         }
         return inputLine;
-    }
-
-    private void stopClient() {
-        logger.error("Connection with IP terminated: {}", client.getRemoteSocketAddress().toString());
-
-        try {
-            in.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            logger.error("An error happened while closing the input");
-        }
-        out.close();
     }
 
     private boolean initInOut() {

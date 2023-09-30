@@ -23,13 +23,15 @@ public class StartGameScene extends InitPane {
     private final Invoker invoker;
     private final GameManager gameManager;
     private final SceneController sceneController;
+    private final Text playersListText;
 
     public StartGameScene(Invoker invoker, GameManager gameManager, SceneController sceneController) {
         this.invoker = invoker;
         this.gameManager = gameManager;
         this.sceneController = sceneController;
+        this.playersListText = new Text();
+        sceneController.setPlayersJoinedText(playersListText.textProperty());
     }
-
 
     @Override
     public void init() {
@@ -55,6 +57,15 @@ public class StartGameScene extends InitPane {
         description.setId("regular");
         textFlow.getChildren().addAll(gameText, id, description);
 
+        TextFlow playerInGame = new TextFlow();
+
+        Text playersText = new Text("Players: ");
+        playersText.getStyleClass().add("bold");
+
+        playersListText.getStyleClass().add("regular");
+        playerInGame.getChildren().addAll(playersText, playersListText);
+        sceneController.setPlayersJoinedText(playersListText.textProperty());
+
         HBox gameTextWrapper = new HBox(textFlow);
         gameTextWrapper.prefWidthProperty().bind(widthProperty());
         gameTextWrapper.setAlignment(Pos.CENTER);
@@ -71,7 +82,7 @@ public class StartGameScene extends InitPane {
         startButtonWrapper.prefWidthProperty().bind(widthProperty());
         startButtonWrapper.setAlignment(Pos.CENTER);
 
-        mainContainer.getChildren().addAll(titleLabel, createSpacer(), gameTextWrapper, createSpacer(), startButtonWrapper, createSpacer());
+        mainContainer.getChildren().addAll(titleLabel, createSpacer(), gameTextWrapper, playersText, createSpacer(), startButtonWrapper, createSpacer());
         getChildren().add(mainContainer);
     }
 

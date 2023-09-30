@@ -48,8 +48,10 @@ public class PlayCardsScene extends InitPane {
         blackCardElement.prefWidthProperty().bind(widthProperty().divide(7));
         blackCardElement.prefHeightProperty().bind(blackCardElement.prefWidthProperty().multiply(1.3));
         blackCardElement.setMaxWidth(Region.USE_PREF_SIZE);
+        blackCardElement.setMinWidth(Region.USE_PREF_SIZE);
         blackCardElement.setMinHeight(Region.USE_PREF_SIZE);
-        HBox blackCardWrapper = new HBox(blackCardElement);
+        blackCardElement.setMaxHeight(Region.USE_PREF_SIZE);
+        VBox blackCardWrapper = new VBox(blackCardElement);
         blackCardWrapper.setAlignment(Pos.CENTER);
 
         String pluralS = blackCard.getNumberOfParameters() > 1 ? "s" : "";
@@ -78,7 +80,11 @@ public class PlayCardsScene extends InitPane {
         HBox playCardsButtonWrapper = new HBox(playCardsButton);
         playCardsButtonWrapper.setAlignment(Pos.CENTER);
 
-        mainContainer.getChildren().addAll(createSpacer(), blackCardWrapper, label, createWhiteCardsElements(), playCardsButtonWrapper, createSpacer());
+        HBox cardsContainer = new HBox(blackCardWrapper, createWhiteCardsElements());
+        cardsContainer.setSpacing(20);
+        cardsContainer.setAlignment(Pos.CENTER);
+
+        mainContainer.getChildren().addAll(createSpacer(), label, cardsContainer, playCardsButtonWrapper, createSpacer());
         getChildren().add(mainContainer);
     }
 

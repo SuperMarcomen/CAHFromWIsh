@@ -20,8 +20,6 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-import java.util.UUID;
-
 public class MainScene extends StackPane {
 
     public MainScene(Invoker invoker, GameManager gameManager, SceneController sceneController) {
@@ -70,7 +68,7 @@ public class MainScene extends StackPane {
             waitOneSecond();
             gameManager.createDummyPlayer(nameInput.getText());
 
-            Action joinAction = new JoinGameAction(gameManager, UUID.randomUUID(), nameInput.getText(), gameManager.getGame().getUuid());
+            Action joinAction = new JoinGameAction(gameManager, gameManager.getGame().getUuid());
             invoker.execute(joinAction);
             sceneController.activate("start_game");
         });

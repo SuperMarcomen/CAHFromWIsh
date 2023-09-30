@@ -9,7 +9,7 @@ import java.net.Socket;
 
 public class Server {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger(Server.class);
 
     public static void main(String[] args) throws IOException {
         Server server = new Server();

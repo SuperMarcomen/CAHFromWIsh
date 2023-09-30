@@ -13,6 +13,7 @@ public interface Player {
     void sendCardsToAllPlayers(Map<Player, List<WhiteCard>> cardsMap);
     void sendCards(Deck deck);
     void addCard(WhiteCard whiteCard);
+    void notifyPlayerJoin(Player player);
     String getName();
     UUID getUuid();
     List<WhiteCard> getCards();

@@ -12,7 +12,7 @@ import java.nio.file.Path;
 
 public class DiskDeckBuilder implements DeckBuilder {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger(DiskDeckBuilder.class);
 
     @Override
     public Deck build(Path path) {

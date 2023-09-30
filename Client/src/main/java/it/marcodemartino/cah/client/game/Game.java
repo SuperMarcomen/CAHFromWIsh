@@ -6,8 +6,10 @@ import it.marcodemartino.cah.game.cards.WhiteCard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 public class Game {
@@ -16,6 +18,8 @@ public class Game {
     private BlackCard newBlackCard;
     private BlackCard oldBlackCard;
     private Player player;
+    private final List<Player> allPlayers;
+    private final Set<Player> playersWhoPlayed;
     private final List<WhiteCard> whiteCards;
     private final List<WhiteCard> selectedCards;
     private final List<WhiteCard> playedCards;
@@ -23,6 +27,8 @@ public class Game {
 
     public Game(UUID uuid) {
         this.uuid = uuid;
+        allPlayers = new ArrayList<>();
+        playersWhoPlayed = new HashSet<>();
         whiteCards = new ArrayList<>();
         playedCards = new ArrayList<>();
         selectedCards = new ArrayList<>();
@@ -95,5 +101,17 @@ public class Game {
 
     public BlackCard getOldBlackCard() {
         return oldBlackCard;
+    }
+
+    public List<Player> getAllPlayers() {
+        return allPlayers;
+    }
+
+    public void addPlayer(Player player) {
+        allPlayers.add(player);
+    }
+
+    public void addPlayersWhoPlayed(Player player) {
+        playersWhoPlayed.add(player);
     }
 }

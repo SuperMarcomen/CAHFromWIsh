@@ -83,7 +83,22 @@ public class Game {
         return randomElements;
     }
 
+    public void notifyPlayerJoin(Player playerWhoJoined) {
+        for (Player playerToNotify : players.values()) {
+            playerToNotify.notifyPlayerJoin(playerWhoJoined);
+        }
+    }
+
     public void addPlayer(Player player) {
         players.put(player.getUuid(), player);
+    }
+
+    public void removePlayer(UUID playerUUID) {
+        players.remove(playerUUID);
+        hasPlayed.remove(playerUUID);
+    }
+
+    public boolean isEmpty() {
+        return players.isEmpty();
     }
 }

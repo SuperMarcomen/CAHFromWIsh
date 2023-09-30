@@ -3,18 +3,22 @@ package it.marcodemartino.cah.server;
 import it.marcodemartino.cah.game.Game;
 import it.marcodemartino.cah.game.cards.DeckBuilder;
 import it.marcodemartino.cah.game.cards.DiskDeckBuilder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 
 public class GameManager {
 
     private final Map<UUID, Game> games;
     private final DeckBuilder deckBuilder;
+    private final Logger logger = LogManager.getLogger(GameManager.class);
 
     public GameManager() {
         games = new HashMap<>();
@@ -30,6 +34,18 @@ public class GameManager {
         UUID uuid = UUID.randomUUID();
         games.put(uuid, game);
         return uuid;
+    }
+
+    public void quitPlayer(UUID playerUUID) {
+        for (Entry<UUID, Game> uuidGameEntry : games.entrySet()) {
+            Game game = uuidGameEntry.getValue();
+            UUID gameUUID = uuidGameEntry.getKey();
+            game.removePlayer(playerUUID);
+            if (game.isEmpty()) {
+                games.remove(gameUUID);
+                logger.info("Game with UUID {} was deleted since it was empty", gameUUID);
+            }
+        }
     }
 
     private Path getPathFromClassPath(String fileName) {

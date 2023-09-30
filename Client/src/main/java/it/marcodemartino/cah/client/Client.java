@@ -2,6 +2,7 @@ package it.marcodemartino.cah.client;
 
 import it.marcodemartino.cah.client.commands.Command;
 import it.marcodemartino.cah.client.commands.GameCreatedCommand;
+import it.marcodemartino.cah.client.commands.NotifyPlayerJoinCommand;
 import it.marcodemartino.cah.client.commands.ReceiveCardsCommand;
 import it.marcodemartino.cah.client.commands.ReceivePlayedCardsCommand;
 import it.marcodemartino.cah.client.game.GameManager;
@@ -45,6 +46,9 @@ public class Client extends Thread {
         while (running) {
             Optional<String> input = getInput();
             if (input.isEmpty()) continue;
+
+            if (input.get().equals("quit")) break;
+
             String methodName = new JSONObject(input.get())
                     .getString("method");
             Command command = commands.get(methodName);
@@ -72,14 +76,9 @@ public class Client extends Thread {
     }
 
     public void stopConnection() {
-        out.println("quit");
-        try {
-            in.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
         running = false;
         try {
+            in.close();
             socket.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -107,6 +106,7 @@ public class Client extends Thread {
         commands.put("game_created", new GameCreatedCommand(out, gameManager));
         commands.put("send_cards", new ReceiveCardsCommand(out, gameManager, sceneController));
         commands.put("send_all_cards", new ReceivePlayedCardsCommand(out, gameManager, sceneController));
+        commands.put("notify_player_join", new NotifyPlayerJoinCommand(out, gameManager, sceneController));
     }
 
     public GameManager getGameManager() {
