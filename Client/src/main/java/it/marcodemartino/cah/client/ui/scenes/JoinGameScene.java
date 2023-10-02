@@ -52,7 +52,8 @@ public class JoinGameScene extends InitPane {
                 showAlert();
                 return;
             }
-            Action joinGame = new JoinGameAction(gameManager, UUID.fromString(idInputField.getText()));
+            gameManager.createGameWithUUID(UUID.fromString(idInputField.getText()));
+            Action joinGame = new JoinGameAction(gameManager);
             invoker.execute(joinGame);
         });
         joinButton.prefWidthProperty().bind(widthProperty().divide(3));

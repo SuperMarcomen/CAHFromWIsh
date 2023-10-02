@@ -6,7 +6,7 @@ import org.json.JSONObject;
 
 public class CreateGameAction implements Action {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger(CreateGameAction.class);
 
     @Override
     public String execute() {

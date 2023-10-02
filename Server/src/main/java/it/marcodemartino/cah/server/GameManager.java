@@ -6,10 +6,11 @@ import it.marcodemartino.cah.game.cards.DiskDeckBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
@@ -37,22 +38,22 @@ public class GameManager {
     }
 
     public void quitPlayer(UUID playerUUID) {
+        List<UUID> toBeRemoved = new ArrayList<>();
         for (Entry<UUID, Game> uuidGameEntry : games.entrySet()) {
             Game game = uuidGameEntry.getValue();
             UUID gameUUID = uuidGameEntry.getKey();
             game.removePlayer(playerUUID);
             if (game.isEmpty()) {
-                games.remove(gameUUID);
+                toBeRemoved.add(gameUUID);
                 logger.info("Game with UUID {} was deleted since it was empty", gameUUID);
             }
+        }
+        for (UUID uuid : toBeRemoved) {
+            games.remove(uuid);
         }
     }
 
     private Path getPathFromClassPath(String fileName) {
-        try {
-            return Paths.get(ClassLoader.getSystemResource(fileName).toURI());
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
+        return Paths.get(fileName);
     }
 }

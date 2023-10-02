@@ -2,6 +2,7 @@ package it.marcodemartino.cah.client;
 
 import it.marcodemartino.cah.client.commands.Command;
 import it.marcodemartino.cah.client.commands.GameCreatedCommand;
+import it.marcodemartino.cah.client.commands.JoinGameResultCommand;
 import it.marcodemartino.cah.client.commands.NotifyPlayerJoinCommand;
 import it.marcodemartino.cah.client.commands.ReceiveCardsCommand;
 import it.marcodemartino.cah.client.commands.ReceivePlayedCardsCommand;
@@ -22,7 +23,7 @@ import java.util.Optional;
 
 public class Client extends Thread {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger(Client.class);
     private final Map<String, Command> commands;
 
     private final GameManager gameManager;
@@ -62,6 +63,7 @@ public class Client extends Thread {
     public synchronized void start() {
         try {
             startConnection("127.0.0.1", 6666);
+//            startConnection("129.152.19.2", 6666);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -103,10 +105,11 @@ public class Client extends Thread {
     }
 
     private void registerActions() {
-        commands.put("game_created", new GameCreatedCommand(out, gameManager));
+        commands.put("game_created", new GameCreatedCommand(out, gameManager, this, sceneController));
         commands.put("send_cards", new ReceiveCardsCommand(out, gameManager, sceneController));
         commands.put("send_all_cards", new ReceivePlayedCardsCommand(out, gameManager, sceneController));
         commands.put("notify_player_join", new NotifyPlayerJoinCommand(out, gameManager, sceneController));
+        commands.put("join_game_result", new JoinGameResultCommand(out, sceneController));
     }
 
     public GameManager getGameManager() {

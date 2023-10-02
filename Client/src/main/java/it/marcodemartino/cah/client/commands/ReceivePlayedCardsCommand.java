@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class ReceivePlayedCardsCommand extends Command {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger(ReceivePlayedCardsCommand.class);
     private final GameManager gameManager;
     private final SceneController sceneController;
 

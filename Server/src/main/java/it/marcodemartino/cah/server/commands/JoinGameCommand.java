@@ -26,9 +26,27 @@ public class JoinGameCommand extends Command {
     public void execute(String input) {
         JSONObject object = new JSONObject(input);
         Game game = gameManager.getGame(UUID.fromString(object.getString("game_uuid")));
+        if (game == null) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("method", "join_game_result");
+            jsonObject.put("result", "non_existent");
+            out.println(jsonObject);
+            out.flush();
+            return;
+        }
+
+
         Player player = new RemotePlayer(object.getString("player_name"), UUID.fromString(object.getString("player_uuid")), out);
         game.addPlayer(player);
         game.notifyPlayerJoin(player);
+        game.notifyPlayerAboutEveryone(player);
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("method", "join_game_result");
+        jsonObject.put("result", "successful");
+        out.println(jsonObject);
+        out.flush();
+
         logger.info("Player {} with UUID {} joined a game with UUID {}", player.getName(), player.getUuid(), object.getString("game_uuid"));
     }
 }

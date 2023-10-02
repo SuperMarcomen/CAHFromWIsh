@@ -31,6 +31,10 @@
     -fx-font-family: 'Lato Regular';
 }
 
+.light {
+    -fx-font-family: 'Lato Light';
+}
+
 
 #titleLabel {
     -fx-font-family: "Lato Bold", sans-serif;

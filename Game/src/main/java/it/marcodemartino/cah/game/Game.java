@@ -83,8 +83,15 @@ public class Game {
         return randomElements;
     }
 
+    public void notifyPlayerAboutEveryone(Player playerWhoJoined) {
+        for (Player playerInGame : players.values()) {
+            playerWhoJoined.notifyPlayerJoin(playerInGame);
+        }
+    }
+
     public void notifyPlayerJoin(Player playerWhoJoined) {
         for (Player playerToNotify : players.values()) {
+            if (playerToNotify.getUuid().equals(playerWhoJoined.getUuid())) continue;
             playerToNotify.notifyPlayerJoin(playerWhoJoined);
         }
     }

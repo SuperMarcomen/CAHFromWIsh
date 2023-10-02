@@ -17,7 +17,7 @@ import java.util.List;
 
 public class ReceiveCardsCommand extends Command {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger(ReceiveCardsCommand.class);
     private final GameManager gameManager;
     private final SceneController sceneController;
     private boolean firstRound;

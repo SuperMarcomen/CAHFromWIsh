@@ -23,7 +23,7 @@ class JoinGameActionTest {
         invoker.execute(createGame);
 
         gameManager.createDummyPlayer("Marco");
-        Action joinGame = new JoinGameAction(gameManager, gameManager.getGame().getUuid());
+        Action joinGame = new JoinGameAction(gameManager);
         invoker.execute(joinGame);
 
         client.stopConnection();

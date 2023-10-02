@@ -22,6 +22,10 @@ public class CardsAgainstHumanity extends Application {
     private Invoker invoker;
     private GameManager gameManager;
 
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     @Override
     public void start(Stage primaryStage) {
         Font.loadFont(getClass().getResourceAsStream("/fonts/Lato/Lato-Bold.ttf"), 16);

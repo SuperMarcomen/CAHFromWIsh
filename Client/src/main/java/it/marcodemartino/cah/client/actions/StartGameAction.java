@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public class StartGameAction implements Action {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger(StartGameAction.class);
     private final UUID gameUUID;
 
     public StartGameAction(UUID gameUUID) {

@@ -3,7 +3,6 @@ package it.marcodemartino.cah.client.ui.scenes;
 import it.marcodemartino.cah.client.Invoker;
 import it.marcodemartino.cah.client.actions.Action;
 import it.marcodemartino.cah.client.actions.CreateGameAction;
-import it.marcodemartino.cah.client.actions.JoinGameAction;
 import it.marcodemartino.cah.client.game.GameManager;
 import it.marcodemartino.cah.client.ui.elements.LabelWrapper;
 import javafx.geometry.Insets;
@@ -65,12 +64,7 @@ public class MainScene extends StackPane {
             }
             Action createAction = new CreateGameAction();
             invoker.execute(createAction);
-            waitOneSecond();
             gameManager.createDummyPlayer(nameInput.getText());
-
-            Action joinAction = new JoinGameAction(gameManager, gameManager.getGame().getUuid());
-            invoker.execute(joinAction);
-            sceneController.activate("start_game");
         });
         buttonsContainer.getChildren().add(startButton);
         startButton.prefWidthProperty().bind(widthProperty().divide(3));

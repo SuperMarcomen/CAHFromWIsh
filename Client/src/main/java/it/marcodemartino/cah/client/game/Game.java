@@ -76,6 +76,9 @@ public class Game {
 
     public void setNewBlackCard(BlackCard newBlackCard) {
         this.oldBlackCard = this.newBlackCard;
+        if (this.newBlackCard == null) {
+            this.oldBlackCard = newBlackCard;
+        }
         this.newBlackCard = newBlackCard;
     }
 

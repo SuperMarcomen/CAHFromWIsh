@@ -29,7 +29,7 @@ public class StartGameScene extends InitPane {
         this.invoker = invoker;
         this.gameManager = gameManager;
         this.sceneController = sceneController;
-        this.playersListText = new Text();
+        this.playersListText = new Text("Soreta");
         sceneController.setPlayersJoinedText(playersListText.textProperty());
     }
 
@@ -53,9 +53,11 @@ public class StartGameScene extends InitPane {
         Text id = new Text(gameManager.getGame().getUuid().toString() + System.lineSeparator());
         id.getStyleClass().add("regular");
 
-        Text description = new Text("Share this ID with your friends to play together!");
-        description.setId("regular");
-        textFlow.getChildren().addAll(gameText, id, description);
+        Text description = new Text("Share this ID with your friends to play together!" + System.lineSeparator());
+        description.getStyleClass().add("regular");
+        Text clipboardText = new Text("(The ID is already copied in your clipboard)");
+        clipboardText.getStyleClass().add("light");
+        textFlow.getChildren().addAll(gameText, id, description, clipboardText);
 
         TextFlow playerInGame = new TextFlow();
 
@@ -64,9 +66,11 @@ public class StartGameScene extends InitPane {
 
         playersListText.getStyleClass().add("regular");
         playerInGame.getChildren().addAll(playersText, playersListText);
-        sceneController.setPlayersJoinedText(playersListText.textProperty());
 
-        HBox gameTextWrapper = new HBox(textFlow);
+        VBox textContainer = new VBox(textFlow, playerInGame);
+        textContainer.setSpacing(50);
+
+        HBox gameTextWrapper = new HBox(textContainer);
         gameTextWrapper.prefWidthProperty().bind(widthProperty());
         gameTextWrapper.setAlignment(Pos.CENTER);
 
@@ -82,7 +86,7 @@ public class StartGameScene extends InitPane {
         startButtonWrapper.prefWidthProperty().bind(widthProperty());
         startButtonWrapper.setAlignment(Pos.CENTER);
 
-        mainContainer.getChildren().addAll(titleLabel, createSpacer(), gameTextWrapper, playersText, createSpacer(), startButtonWrapper, createSpacer());
+        mainContainer.getChildren().addAll(titleLabel, createSpacer(), gameTextWrapper, createSpacer(), startButtonWrapper, createSpacer());
         getChildren().add(mainContainer);
     }
 

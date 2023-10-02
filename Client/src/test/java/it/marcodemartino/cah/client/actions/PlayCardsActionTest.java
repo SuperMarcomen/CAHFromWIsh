@@ -25,7 +25,7 @@ class PlayCardsActionTest {
         Thread.sleep(1000);
 
         gameManager.createDummyPlayer("Marco");
-        Action joinGame = new JoinGameAction(gameManager, gameManager.getGame().getUuid());
+        Action joinGame = new JoinGameAction(gameManager);
         invoker.execute(joinGame);
 
         Action startGame = new StartGameAction(gameManager.getGame().getUuid());
