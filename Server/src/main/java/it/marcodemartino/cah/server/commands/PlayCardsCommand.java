@@ -31,7 +31,9 @@ public class PlayCardsCommand extends Command {
             whiteCards.add(new WhiteCard((String) obj));
         }
 
-        game.playCards(UUID.fromString(object.getString("player_uuid")), whiteCards);
+        UUID playerUUID = UUID.fromString(object.getString("player_uuid"));
+        game.playCards(playerUUID, whiteCards);
+        game.broadcastCardPlay(playerUUID);
 
         if (!game.haveAllPlayersPlayed()) return;
         game.sendNewRoundCardsToAllPlayers();

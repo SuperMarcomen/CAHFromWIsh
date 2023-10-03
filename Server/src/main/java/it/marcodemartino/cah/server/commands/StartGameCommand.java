@@ -24,6 +24,7 @@ public class StartGameCommand extends Command {
     public void execute(String input) {
         JSONObject object = new JSONObject(input);
         Game game = gameManager.getGame(UUID.fromString(object.getString("game_uuid")));
+        game.start();
         game.sendStartCardsToAllPlayer();
         logger.info("Started a game with UUID {}", object.getString("game_uuid"));
     }

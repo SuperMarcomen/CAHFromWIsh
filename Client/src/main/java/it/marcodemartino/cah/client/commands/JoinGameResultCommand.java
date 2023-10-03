@@ -25,6 +25,10 @@ public class JoinGameResultCommand extends Command {
             showAlert("The game you tried to join doesn't exist");
             return;
         }
+        if (result.equals("already_started")) {
+            showAlert("The game you tried to join has already started");
+            return;
+        }
         if (result.equals("successful")) {
             Platform.runLater(() -> sceneController.activate("start_game"));
         }

@@ -16,7 +16,6 @@ public class Server {
         server.start(6666);
     }
 
-
     public void start(int port) throws IOException {
         GameManager gameManager = new GameManager();
         try (ServerSocket serverSocket = new ServerSocket(port)) {

@@ -91,7 +91,11 @@
 }
 
 .whiteCardPlayed {
-    -fx-background-color: #647b68;
+    -fx-background-color: #ECECEC;
+}
+
+.whiteCardUnplayed {
+    -fx-opacity: 0.4;
 }
 
 .popup {
@@ -100,4 +104,12 @@
     -fx-border-width: 2;
     -fx-border-radius: 5;
     -fx-padding: 20;
+}
+
+.circleEnabled {
+    -fx-fill: green;
+}
+
+.circleDisabled {
+    -fx-fill: red;
 }

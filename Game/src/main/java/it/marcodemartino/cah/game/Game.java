@@ -19,6 +19,7 @@ public class Game {
     private static final int START_CARDS = 10;
     private final Deck deck;
     private int cardsRequired;
+    private boolean started;
 
     public Game(Deck deck) {
         this.players = new HashMap<>();
@@ -64,6 +65,13 @@ public class Game {
         hasPlayed.add(uuid);
     }
 
+    public void broadcastCardPlay(UUID uuid) {
+        Player player = players.get(uuid);
+        for (Player toNotify : players.values()) {
+            toNotify.notifyPlayerPlayed(player);
+        }
+    }
+
     public void sendStartCardsToAllPlayer() {
         RandomArrayList<BlackCard> blackCard = new RandomArrayList<>();
         BlackCard randomBlackCard = deck.getRandomBlackCard();
@@ -107,5 +115,13 @@ public class Game {
 
     public boolean isEmpty() {
         return players.isEmpty();
+    }
+
+    public boolean isStarted() {
+        return started;
+    }
+
+    public void start() {
+        started = true;
     }
 }

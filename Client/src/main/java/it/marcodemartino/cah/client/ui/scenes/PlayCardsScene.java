@@ -2,10 +2,13 @@ package it.marcodemartino.cah.client.ui.scenes;
 
 import it.marcodemartino.cah.client.Invoker;
 import it.marcodemartino.cah.client.actions.PlayCardsAction;
+import it.marcodemartino.cah.client.collections.HashSetChangeListener;
 import it.marcodemartino.cah.client.game.GameManager;
 import it.marcodemartino.cah.client.ui.elements.BigWhiteButton;
 import it.marcodemartino.cah.client.ui.elements.BlackCardElement;
+import it.marcodemartino.cah.client.ui.elements.TextWithLight;
 import it.marcodemartino.cah.client.ui.elements.WhiteCardElement;
+import it.marcodemartino.cah.game.Player;
 import it.marcodemartino.cah.game.cards.BlackCard;
 import it.marcodemartino.cah.game.cards.WhiteCard;
 import javafx.geometry.Insets;
@@ -13,29 +16,37 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
-public class PlayCardsScene extends InitPane {
+public class PlayCardsScene extends InitPane implements HashSetChangeListener<Player> {
 
     private final GameManager gameManager;
     private final Invoker invoker;
     private final List<WhiteCardElement> whiteCardElements;
+    private final Map<UUID, TextWithLight> playersStatus;
     private boolean alreadyPlayed;
 
     public PlayCardsScene(GameManager gameManager, Invoker invoker, Stage primaryStage) {
         super(primaryStage);
         this.gameManager = gameManager;
         this.invoker = invoker;
-        this.alreadyPlayed = false;
         whiteCardElements = new ArrayList<>();
+        playersStatus = new HashMap<>();
+        this.alreadyPlayed = false;
     }
 
     @Override
     public void init() {
+        gameManager.getGame().setHashSetListener(this);
         getChildren().clear();
         whiteCardElements.clear();
 
@@ -50,7 +61,14 @@ public class PlayCardsScene extends InitPane {
         BlackCardElement blackCardElement = new BlackCardElement(blackCard.getText(), widthProperty());
 
         String pluralS = blackCard.getNumberOfParameters() > 1 ? "s" : "";
-        Label label = new Label(String.format("Choose %d card%s to play", blackCard.getNumberOfParameters(), pluralS));
+        Label chooseCardsLabel = new Label(String.format("Choose %d card%s to play", blackCard.getNumberOfParameters(), pluralS));
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+        Label playedLabel = new Label("Has played: ");
+        HBox container = new HBox(chooseCardsLabel, spacer, playedLabel, createPlayerPlayedStatus());
+        container.setSpacing(20);
+        container.setPadding(new Insets(20));
+        container.prefWidthProperty().bind(widthProperty());
 
         mainContainer.setSpacing(20);
 
@@ -64,9 +82,30 @@ public class PlayCardsScene extends InitPane {
         cardsContainer.setSpacing(20);
         cardsContainer.setAlignment(Pos.CENTER);
 
-        mainContainer.getChildren().addAll(createSpacer(), label, cardsContainer, playCardsButtonWrapper, createSpacer());
+        mainContainer.getChildren().addAll(createSpacer(), container, cardsContainer, playCardsButtonWrapper, createSpacer());
 
         getChildren().add(mainContainer);
+    }
+
+    @Override
+    public void elementAdded(Player element) {
+        playersStatus.get(element.getUuid()).enableCircle();
+    }
+
+    private HBox createPlayerPlayedStatus() {
+        VBox container = new VBox();
+        playersStatus.clear();
+        for (Player player : gameManager.getGame().getAllPlayers()) {
+            TextWithLight status = new TextWithLight(player.getName());
+            playersStatus.put(player.getUuid(), status);
+            container.getChildren().add(status);
+            if (gameManager.getGame().hasPlayerPlayed(player)) {
+                status.enableCircle();
+            }
+        }
+        HBox wrapper = new HBox(container);
+        wrapper.setAlignment(Pos.CENTER);
+        return wrapper;
     }
 
     private void handlePlayCardsButtonClick() {
@@ -114,8 +153,11 @@ public class PlayCardsScene extends InitPane {
 
     private void changeColorOfPlayedCards() {
         for (WhiteCardElement whiteCardElement : whiteCardElements) {
-            if (!whiteCardElement.isSelected()) continue;
-            whiteCardElement.setPlayedColorClass();
+            if (whiteCardElement.isSelected()) {
+                whiteCardElement.setPlayedClass();
+            } else {
+                whiteCardElement.setUnPlayedClass();
+            }
         }
     }
 }

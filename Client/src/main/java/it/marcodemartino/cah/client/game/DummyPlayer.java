@@ -44,12 +44,12 @@ public class DummyPlayer implements Player {
     }
 
     @Override
-    public void addCard(WhiteCard whiteCard) {
+    public void notifyPlayerJoin(Player player) {
 
     }
 
     @Override
-    public void notifyPlayerJoin(Player player) {
+    public void notifyPlayerPlayed(Player player) {
 
     }
 

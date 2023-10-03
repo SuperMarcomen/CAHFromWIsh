@@ -39,7 +39,8 @@ public class WhiteCardElement extends HBox {
 
         });
 
-        Label cardText = new Label(whiteCard.getText());
+        String text = whiteCard.getText().replace("\\n", System.lineSeparator());
+        Label cardText = new Label(text);
         cardText.setWrapText(true);
         getChildren().add(cardText);
 
@@ -49,10 +50,20 @@ public class WhiteCardElement extends HBox {
         prefHeightProperty().bind(prefWidthProperty().multiply(1.3));
     }
 
-    public void setPlayedColorClass() {
+    public void setUnPlayedClass() {
+        removeClasses();
+        getStyleClass().add("whiteCardDisabled");
+        getStyleClass().add("whiteCardUnplayed");
+    }
+
+    public void setPlayedClass() {
+        removeClasses();
+        getStyleClass().add("whiteCardPlayed");
+    }
+
+    private void removeClasses() {
         getStyleClass().remove("whiteCardDisabled");
         getStyleClass().remove("whiteCardActivated");
-        getStyleClass().add("whiteCardPlayed");
     }
 
     public boolean isSelected() {

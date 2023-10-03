@@ -11,7 +11,7 @@ public class BlackCardElement extends VBox {
     public BlackCardElement(String text, ReadOnlyDoubleProperty widthProperty) {
         setPadding(new Insets(20));
 
-        String newText = text.replace("\n", System.lineSeparator());
+        String newText = text.replace("\\n", System.lineSeparator());
         Label label = new Label(newText);
         label.setWrapText(true);
 

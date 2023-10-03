@@ -1,15 +1,15 @@
 package it.marcodemartino.cah.client.game;
 
+import it.marcodemartino.cah.client.collections.HashSetChangeListener;
+import it.marcodemartino.cah.client.collections.ObservableHashSet;
 import it.marcodemartino.cah.game.Player;
 import it.marcodemartino.cah.game.cards.BlackCard;
 import it.marcodemartino.cah.game.cards.WhiteCard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
 public class Game {
@@ -19,7 +19,7 @@ public class Game {
     private BlackCard oldBlackCard;
     private Player player;
     private final List<Player> allPlayers;
-    private final Set<Player> playersWhoPlayed;
+    private final ObservableHashSet<Player> playersWhoPlayed;
     private final List<WhiteCard> whiteCards;
     private final List<WhiteCard> selectedCards;
     private final List<WhiteCard> playedCards;
@@ -28,7 +28,7 @@ public class Game {
     public Game(UUID uuid) {
         this.uuid = uuid;
         allPlayers = new ArrayList<>();
-        playersWhoPlayed = new HashSet<>();
+        playersWhoPlayed = new ObservableHashSet<>();
         whiteCards = new ArrayList<>();
         playedCards = new ArrayList<>();
         selectedCards = new ArrayList<>();
@@ -58,6 +58,7 @@ public class Game {
 
     public void clearPlayedCards() {
         playedCards.clear();
+        playersWhoPlayed.clear();
     }
 
     public void playCards(List<WhiteCard> cardsCurrentlyPlayed) {
@@ -68,6 +69,14 @@ public class Game {
 
     public boolean hasPlayedCards() {
         return !playedCards.isEmpty();
+    }
+
+    public void setHashSetListener(HashSetChangeListener<Player> listener) {
+        playersWhoPlayed.setListener(listener);
+    }
+
+    public boolean hasPlayerPlayed(Player player) {
+        return playersWhoPlayed.contains(player);
     }
 
     public BlackCard getNewBlackCard() {
@@ -122,7 +131,14 @@ public class Game {
         allPlayers.add(player);
     }
 
-    public void addPlayersWhoPlayed(Player player) {
-        playersWhoPlayed.add(player);
+    public void addPlayersWhoPlayed(UUID playerUUID) {
+        playersWhoPlayed.add(getFromUUID(playerUUID));
+    }
+
+    private Player getFromUUID(UUID playerUUID) {
+        for (Player player : allPlayers) {
+            if (player.getUuid().equals(playerUUID)) return player;
+        }
+        return null;
     }
 }

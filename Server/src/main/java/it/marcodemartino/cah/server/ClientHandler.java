@@ -8,6 +8,7 @@ import it.marcodemartino.cah.server.commands.QuitCommand;
 import it.marcodemartino.cah.server.commands.StartGameCommand;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -50,13 +51,24 @@ public class ClientHandler extends Thread {
 
             if (input.isEmpty()) return;
 
-            String methodName = new JSONObject(input)
-                    .getString("method");
+            JSONObject jsonObject = getJSONObjectOrNull(input);
+            if (jsonObject == null) continue;
+
+            String methodName = jsonObject.getString("method");
             Command command = commands.get(methodName);
             if (command == null) continue;
             command.execute(input);
         }
 
+    }
+
+    private JSONObject getJSONObjectOrNull(String input) {
+        try {
+            return new JSONObject(input);
+        } catch (JSONException exception) {
+            logger.warn("Received an input that was not JSON: {}", input);
+        }
+        return null;
     }
 
     private void registerCommands() {
