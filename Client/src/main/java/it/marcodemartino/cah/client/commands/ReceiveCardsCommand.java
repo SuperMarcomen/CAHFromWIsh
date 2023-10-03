@@ -46,6 +46,7 @@ public class ReceiveCardsCommand extends Command {
             blackCards = buildBlackCards(jsonArray);
         }
 
+        gameManager.getGame().clearPlayedCards();
         gameManager.getGame().addWhiteCards(whiteCards);
         if (!blackCards.isEmpty()) {
             gameManager.getGame().setNewBlackCard(blackCards.get(0));

@@ -34,7 +34,7 @@ public class PlayCardsCommand extends Command {
         game.playCards(UUID.fromString(object.getString("player_uuid")), whiteCards);
 
         if (!game.haveAllPlayersPlayed()) return;
-        game.sendPlayedCardsToAllPlayers();
         game.sendNewRoundCardsToAllPlayers();
+        game.sendPlayedCardsToAllPlayers();
     }
 }

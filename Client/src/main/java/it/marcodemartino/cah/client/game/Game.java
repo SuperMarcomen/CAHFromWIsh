@@ -56,10 +56,18 @@ public class Game {
         this.allPlayedCards.putAll(allPlayedCards);
     }
 
+    public void clearPlayedCards() {
+        playedCards.clear();
+    }
+
     public void playCards(List<WhiteCard> cardsCurrentlyPlayed) {
         playedCards.addAll(cardsCurrentlyPlayed);
         whiteCards.removeAll(cardsCurrentlyPlayed);
         selectedCards.removeAll(cardsCurrentlyPlayed);
+    }
+
+    public boolean hasPlayedCards() {
+        return !playedCards.isEmpty();
     }
 
     public BlackCard getNewBlackCard() {

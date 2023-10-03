@@ -4,18 +4,15 @@ import it.marcodemartino.cah.client.Invoker;
 import it.marcodemartino.cah.client.actions.Action;
 import it.marcodemartino.cah.client.actions.JoinGameAction;
 import it.marcodemartino.cah.client.game.GameManager;
+import it.marcodemartino.cah.client.ui.elements.BigWhiteButton;
 import it.marcodemartino.cah.client.ui.elements.LabelWrapper;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.util.UUID;
 
@@ -24,7 +21,8 @@ public class JoinGameScene extends InitPane {
     private final Invoker invoker;
     private final GameManager gameManager;
 
-    public JoinGameScene(Invoker invoker, GameManager gameManager) {
+    public JoinGameScene(Invoker invoker, GameManager gameManager, Stage primaryStage) {
+        super(primaryStage);
         this.invoker = invoker;
         this.gameManager = gameManager;
     }
@@ -39,25 +37,12 @@ public class JoinGameScene extends InitPane {
 
         HBox enterIdLabel = new LabelWrapper("Enter the id of the game", "enterIdLabel");
 
-        TextField idInputField = new TextField("DH76-PO86-DJE4-48DA");
-        idInputField.setId("idInputField");
-        idInputField.prefWidthProperty().bind(widthProperty().divide(3));
-        HBox idInputFieldWrapper = new HBox(idInputField);
-        idInputFieldWrapper.prefWidthProperty().bind(widthProperty());
-        idInputFieldWrapper.setAlignment(Pos.CENTER);
+        TextField idInputField = createIdInputField();
+        HBox idInputFieldWrapper = wrapIdInputField(idInputField);
 
-        Button joinButton = new Button("Join the game");
-        joinButton.setOnAction(e -> {
-            if (idInputField.getText().isEmpty()) {
-                showAlert();
-                return;
-            }
-            gameManager.createGameWithUUID(UUID.fromString(idInputField.getText()));
-            Action joinGame = new JoinGameAction(gameManager);
-            invoker.execute(joinGame);
-        });
-        joinButton.prefWidthProperty().bind(widthProperty().divide(3));
-        joinButton.prefHeightProperty().bind(heightProperty().divide(10));
+        Button joinButton = new BigWhiteButton("Join the game", widthProperty(), heightProperty());
+        joinButton.setOnAction(e -> handleJoinButtonClick(idInputField));
+
         HBox joinButtonWrapper = new HBox(joinButton);
         joinButtonWrapper.setAlignment(Pos.CENTER);
 
@@ -65,16 +50,28 @@ public class JoinGameScene extends InitPane {
         getChildren().add(mainContainer);
     }
 
-    private Node createSpacer() {
-        Region spacer = new Region();
-        VBox.setVgrow(spacer, Priority.ALWAYS);
-        return spacer;
+    private void handleJoinButtonClick(TextField idInputField) {
+        if (idInputField.getText().isEmpty()) {
+            showPopup("The ID can not be empty!");
+            return;
+        }
+        gameManager.createGameWithUUID(UUID.fromString(idInputField.getText()));
+        Action joinGame = new JoinGameAction(gameManager);
+        invoker.execute(joinGame);
     }
 
-    private void showAlert() {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Error");
-        alert.setContentText("Insert an id");
-        alert.show();
+    private HBox wrapIdInputField(TextField idInputField) {
+        HBox idInputFieldWrapper = new HBox(idInputField);
+        idInputFieldWrapper.prefWidthProperty().bind(widthProperty());
+        idInputFieldWrapper.setAlignment(Pos.CENTER);
+        return idInputFieldWrapper;
+    }
+
+    private TextField createIdInputField() {
+        TextField idInputField = new TextField();
+        idInputField.setPromptText("63b218eb-9a5d-4194-8201-16d5c86ee772");
+        idInputField.setId("idInputField");
+        idInputField.prefWidthProperty().bind(widthProperty().divide(3));
+        return idInputField;
     }
 }

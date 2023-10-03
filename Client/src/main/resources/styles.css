@@ -23,6 +23,11 @@
     -fx-text-fill: #2A2929;
 }
 
+.text-field {
+    -fx-prompt-text-fill: derive(-fx-control-inner-background,-30%);
+    -fx-font-family: "Lato Light"
+}
+
 .bold {
     -fx-font-family: 'Lato Bold';
 }
@@ -63,6 +68,11 @@
     -fx-font-size: 1.5em;
 }
 
+#whiteCard {
+    -fx-border-color: #2A2929;
+    -fx-border-width: 3;
+}
+
 #whiteCard * {
     -fx-font-size: 1.5em;
     -fx-text-fill: #2A2929;
@@ -78,4 +88,16 @@
 
 .whiteCardActivated {
     -fx-background-color: #716a6a;
+}
+
+.whiteCardPlayed {
+    -fx-background-color: #647b68;
+}
+
+.popup {
+    -fx-background-color: #716a6a;
+    -fx-border-color: #716a6a;
+    -fx-border-width: 2;
+    -fx-border-radius: 5;
+    -fx-padding: 20;
 }
