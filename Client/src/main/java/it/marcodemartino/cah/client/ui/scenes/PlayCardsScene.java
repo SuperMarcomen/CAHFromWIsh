@@ -10,7 +10,6 @@ import it.marcodemartino.cah.client.ui.elements.TextWithLight;
 import it.marcodemartino.cah.client.ui.elements.WhiteCardElement;
 import it.marcodemartino.cah.game.Player;
 import it.marcodemartino.cah.game.cards.BlackCard;
-import it.marcodemartino.cah.game.cards.WhiteCard;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -127,7 +126,7 @@ public class PlayCardsScene extends InitPane implements HashSetChangeListener<Pl
 
     private VBox createWhiteCardsElements() {
         VBox vBox = new VBox();
-        List<WhiteCard> whiteCards = gameManager.getGame().getWhiteCards();
+        List<String> whiteCards = gameManager.getGame().getWhiteCards();
         int halfSize = whiteCards.size() / 2;
 
         HBox cardsContainer1 = new HBox();

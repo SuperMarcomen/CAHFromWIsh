@@ -1,18 +1,24 @@
 package it.marcodemartino.cah.client.actions;
 
+import com.google.gson.Gson;
+import it.marcodemartino.cah.json.client.CreateGameObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.JSONObject;
 
 public class CreateGameAction implements Action {
 
     private static final Logger logger = LogManager.getLogger(CreateGameAction.class);
+    private final Gson gson;
+
+    public CreateGameAction() {
+        this.gson = new Gson();
+    }
 
     @Override
     public String execute() {
         logger.info("Sent request to create game");
-        return new JSONObject()
-                .put("method", "new_game")
-                .toString();
+        CreateGameObject jsonObject = new CreateGameObject();
+        logger.info(gson.toJson(jsonObject));
+        return gson.toJson(jsonObject);
     }
 }

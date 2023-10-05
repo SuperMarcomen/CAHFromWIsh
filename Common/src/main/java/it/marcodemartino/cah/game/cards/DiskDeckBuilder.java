@@ -20,7 +20,7 @@ public class DiskDeckBuilder implements DeckBuilder {
             String content = new String(Files.readAllBytes(path));
             JSONObject jsonObject = new JSONObject(content);
 
-            RandomArrayList<WhiteCard> whiteCards = parseWhiteCards(jsonObject);
+            RandomArrayList<String> whiteCards = parseWhiteCards(jsonObject);
             RandomArrayList<BlackCard> blackCards = parseBlackCards(jsonObject);
 
             return new Deck(whiteCards, blackCards);
@@ -30,12 +30,12 @@ public class DiskDeckBuilder implements DeckBuilder {
         return new Deck(new RandomArrayList<>(), new RandomArrayList<>());
     }
 
-    private RandomArrayList<WhiteCard> parseWhiteCards(JSONObject jsonObject) {
+    private RandomArrayList<String> parseWhiteCards(JSONObject jsonObject) {
         logger.info("Parsing white cards from disk");
-        RandomArrayList<WhiteCard> whiteCards = new RandomArrayList<>();
+        RandomArrayList<String> whiteCards = new RandomArrayList<>();
         JSONArray whiteArray = jsonObject.getJSONArray("white");
         for (int i = 0; i < whiteArray.length(); i++) {
-            whiteCards.add(new WhiteCard(whiteArray.getString(i)));
+            whiteCards.add(whiteArray.getString(i));
         }
         return whiteCards;
     }

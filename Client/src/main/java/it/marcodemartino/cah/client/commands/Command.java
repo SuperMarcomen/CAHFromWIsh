@@ -1,15 +1,22 @@
 package it.marcodemartino.cah.client.commands;
 
-import java.io.PrintWriter;
+import com.google.gson.Gson;
+import it.marcodemartino.cah.json.JSONObject;
 
-public abstract class Command {
+public abstract class Command<T extends JSONObject> {
 
-    protected final PrintWriter out;
+    private final Gson gson;
+    private final Class<T> typeClass;
 
-    public Command(PrintWriter out) {
-        this.out = out;
+    public Command(Class<T> typeClass) {
+        this.typeClass = typeClass;
+        this.gson = new Gson();
     }
 
-    public abstract void execute(String input);
+    public void execute(String input) {
+        execute(gson.fromJson(input, typeClass));
+    }
+
+    protected abstract void execute(T t);
 
 }

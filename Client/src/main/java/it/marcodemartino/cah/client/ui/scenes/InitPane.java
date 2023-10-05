@@ -34,7 +34,7 @@ public abstract class InitPane extends StackPane {
         return spacer;
     }
 
-    protected void showPopup(String message) {
+    public void showPopup(String message) {
         Stage popupStage = new Stage(StageStyle.TRANSPARENT);
         popupStage.resizableProperty().setValue(Boolean.FALSE);
         popupStage.initModality(Modality.WINDOW_MODAL);

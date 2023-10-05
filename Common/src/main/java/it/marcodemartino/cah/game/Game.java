@@ -2,7 +2,6 @@ package it.marcodemartino.cah.game;
 
 import it.marcodemartino.cah.game.cards.BlackCard;
 import it.marcodemartino.cah.game.cards.Deck;
-import it.marcodemartino.cah.game.cards.WhiteCard;
 import it.marcodemartino.cah.game.collections.RandomArrayList;
 
 import java.util.HashMap;
@@ -30,25 +29,23 @@ public class Game {
     public void sendNewRoundCardsToAllPlayers() {
         hasPlayed.clear();
         BlackCard blackCard = deck.getRandomBlackCard();
-        RandomArrayList<BlackCard> blackCards = new RandomArrayList<>();
-        blackCards.add(blackCard);
-        RandomArrayList<WhiteCard> whiteCards = pickXCards(cardsRequired);
+        RandomArrayList<String> whiteCards = pickXCards(cardsRequired);
 
         cardsRequired = blackCard.getNumberOfParameters();
         for (Player player : players.values()) {
-            player.sendCards(new Deck(whiteCards, blackCards));
+            player.sendCards(whiteCards, blackCard);
         }
     }
 
     public void sendPlayedCardsToAllPlayers() {
-        Map<Player, List<WhiteCard>> cardsMap = generateCardsMap();
+        Map<Player, List<String>> cardsMap = generateCardsMap();
         for (Player player : players.values()) {
             player.sendCardsToAllPlayers(cardsMap);
         }
     }
 
-    private Map<Player, List<WhiteCard>> generateCardsMap() {
-        Map<Player, List<WhiteCard>> cardsMap = new HashMap<>();
+    private Map<Player, List<String>> generateCardsMap() {
+        Map<Player, List<String>> cardsMap = new HashMap<>();
         for (Player player : players.values()) {
             cardsMap.put(player, player.getPlayedCards());
         }
@@ -59,7 +56,7 @@ public class Game {
         return hasPlayed.size() == players.size();
     }
 
-    public void playCards(UUID uuid, List<WhiteCard> whiteCards) {
+    public void playCards(UUID uuid, List<String> whiteCards) {
         Player player = players.get(uuid);
         player.setPlayedCards(whiteCards);
         hasPlayed.add(uuid);
@@ -73,17 +70,15 @@ public class Game {
     }
 
     public void sendStartCardsToAllPlayer() {
-        RandomArrayList<BlackCard> blackCard = new RandomArrayList<>();
         BlackCard randomBlackCard = deck.getRandomBlackCard();
         cardsRequired = randomBlackCard.getNumberOfParameters();
-        blackCard.add(randomBlackCard);
         for (Player player : players.values()) {
-            player.sendCards(new Deck(pickXCards(START_CARDS), blackCard));
+            player.sendCards(pickXCards(START_CARDS), randomBlackCard);
         }
     }
 
-    private RandomArrayList<WhiteCard> pickXCards(int x) {
-        RandomArrayList<WhiteCard> randomElements = new RandomArrayList<>();
+    private RandomArrayList<String> pickXCards(int x) {
+        RandomArrayList<String> randomElements = new RandomArrayList<>();
 
         for (int i = 0; i < x; i++) {
             randomElements.add(deck.getRandomWhiteCard());

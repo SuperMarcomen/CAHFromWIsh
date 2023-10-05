@@ -4,7 +4,6 @@ import it.marcodemartino.cah.client.Client;
 import it.marcodemartino.cah.client.Invoker;
 import it.marcodemartino.cah.client.game.GameManager;
 import it.marcodemartino.cah.client.ui.scenes.SceneController;
-import it.marcodemartino.cah.game.cards.WhiteCard;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -19,7 +18,7 @@ class PlayCardsActionTest {
         Client client = new Client(new GameManager(), new SceneController());
         client.start();
         GameManager gameManager = client.getGameManager();
-        Action createGame = new CreateGameAction();
+        Action createGame = new CreateGameAction(gson);
         Invoker invoker = new Invoker(client);
         invoker.execute(createGame);
         Thread.sleep(1000);

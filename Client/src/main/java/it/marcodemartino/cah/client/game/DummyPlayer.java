@@ -1,14 +1,14 @@
 package it.marcodemartino.cah.client.game;
 
 import it.marcodemartino.cah.game.Player;
-import it.marcodemartino.cah.game.cards.Deck;
-import it.marcodemartino.cah.game.cards.WhiteCard;
+import it.marcodemartino.cah.game.cards.BlackCard;
 
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 public class DummyPlayer implements Player {
+
     private final UUID uuid;
 
     private final String name;
@@ -19,27 +19,17 @@ public class DummyPlayer implements Player {
     }
 
     @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public UUID getUuid() {
-        return uuid;
-    }
-
-    @Override
-    public void setPlayedCards(List<WhiteCard> playedCards) {
+    public void setPlayedCards(List<String> playedCards) {
 
     }
 
     @Override
-    public void sendCardsToAllPlayers(Map<Player, List<WhiteCard>> cardsMap) {
+    public void sendCardsToAllPlayers(Map<Player, List<String>> cardsMap) {
 
     }
 
     @Override
-    public void sendCards(Deck deck) {
+    public void sendCards(List<String> whiteCards, BlackCard blackCard) {
 
     }
 
@@ -54,12 +44,22 @@ public class DummyPlayer implements Player {
     }
 
     @Override
-    public List<WhiteCard> getCards() {
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    @Override
+    public List<String> getCards() {
         return null;
     }
 
     @Override
-    public List<WhiteCard> getPlayedCards() {
+    public List<String> getPlayedCards() {
         return null;
     }
 }

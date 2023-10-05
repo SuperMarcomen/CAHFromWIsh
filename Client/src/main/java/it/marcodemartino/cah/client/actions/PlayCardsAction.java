@@ -1,36 +1,31 @@
 package it.marcodemartino.cah.client.actions;
 
+import com.google.gson.Gson;
+import it.marcodemartino.cah.client.game.Game;
 import it.marcodemartino.cah.client.game.GameManager;
-import it.marcodemartino.cah.game.cards.WhiteCard;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import it.marcodemartino.cah.json.JSONObject;
+import it.marcodemartino.cah.json.client.PlayCardsObject;
 
 import java.util.List;
+import java.util.UUID;
 
 public class PlayCardsAction implements Action {
 
-    private final List<WhiteCard> whiteCards;
+    private final List<String> whiteCards;
     private final GameManager gameManager;
+    private final Gson gson;
 
-    public PlayCardsAction(List<WhiteCard> whiteCards, GameManager gameManager) {
+    public PlayCardsAction(List<String> whiteCards, GameManager gameManager) {
         this.whiteCards = whiteCards;
         this.gameManager = gameManager;
+        this.gson = new Gson();
     }
 
     @Override
     public String execute() {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("method", "play_cards");
-        jsonObject.put("game_uuid", gameManager.getGame().getUuid());
-        jsonObject.put("player_uuid", gameManager.getGame().getPlayer().getUuid());
-
-        JSONArray cardsArray = new JSONArray();
-        for (WhiteCard whiteCard : whiteCards) {
-            cardsArray.put(whiteCard.getText());
-        }
-
-        jsonObject.put("cards_played", cardsArray);
-        gameManager.getGame().playCards(List.copyOf(whiteCards));
-        return jsonObject.toString();
+        Game game = gameManager.getGame();
+        UUID playerUUID = game.getPlayer().getUuid();
+        JSONObject jsonObject = new PlayCardsObject(whiteCards, playerUUID, game.getUuid());
+        return gson.toJson(jsonObject);
     }
 }

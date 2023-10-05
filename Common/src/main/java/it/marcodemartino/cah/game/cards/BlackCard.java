@@ -1,8 +1,11 @@
 package it.marcodemartino.cah.game.cards;
 
+import com.google.gson.annotations.SerializedName;
+
 public class BlackCard {
 
     private final String text;
+    @SerializedName("parameters")
     private final int numberOfParameters;
 
     public BlackCard(String text, int numberOfParameters) {

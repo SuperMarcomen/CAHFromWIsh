@@ -2,7 +2,6 @@ package it.marcodemartino.cah.client.ui.elements;
 
 import it.marcodemartino.cah.client.game.Game;
 import it.marcodemartino.cah.client.game.GameManager;
-import it.marcodemartino.cah.game.cards.WhiteCard;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
@@ -12,7 +11,7 @@ public class WhiteCardElement extends HBox {
 
     private boolean selected;
 
-    public WhiteCardElement(WhiteCard whiteCard, GameManager gameManager, ReadOnlyDoubleProperty widthProperty, boolean disabled) {
+    public WhiteCardElement(String whiteCard, GameManager gameManager, ReadOnlyDoubleProperty widthProperty, boolean disabled) {
         setPadding(new Insets(20));
         selected = false;
 
@@ -39,7 +38,7 @@ public class WhiteCardElement extends HBox {
 
         });
 
-        String text = whiteCard.getText().replace("\\n", System.lineSeparator());
+        String text = whiteCard.replace("\\n", System.lineSeparator());
         Label cardText = new Label(text);
         cardText.setWrapText(true);
         getChildren().add(cardText);

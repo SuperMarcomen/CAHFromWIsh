@@ -9,6 +9,7 @@ public class SceneController {
 
     private final HashMap<String, InitPane> screenMap;
     private StringProperty playersJoinedText;
+    private InitPane currentlyActive;
     private Scene main;
 
     public SceneController() {
@@ -26,8 +27,9 @@ public class SceneController {
     }
 
     public void activate(String name){
-        main.setRoot( screenMap.get(name) );
-        screenMap.get(name).init();
+        currentlyActive = screenMap.get(name);
+        main.setRoot(currentlyActive);
+        currentlyActive.init();
     }
 
     public void setMain(Scene main) {
@@ -40,5 +42,9 @@ public class SceneController {
 
     public void setPlayersJoinedText(StringProperty playersJoinedText) {
         this.playersJoinedText = playersJoinedText;
+    }
+
+    public InitPane getCurrentlyActive() {
+        return currentlyActive;
     }
 }

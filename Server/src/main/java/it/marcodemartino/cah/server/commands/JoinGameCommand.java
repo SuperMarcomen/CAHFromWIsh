@@ -2,55 +2,52 @@ package it.marcodemartino.cah.server.commands;
 
 import it.marcodemartino.cah.game.Game;
 import it.marcodemartino.cah.game.Player;
+import it.marcodemartino.cah.json.JSONObject;
+import it.marcodemartino.cah.json.JoinResult;
+import it.marcodemartino.cah.json.client.JoinGameObject;
+import it.marcodemartino.cah.json.server.JoinGameResultObject;
 import it.marcodemartino.cah.server.GameManager;
 import it.marcodemartino.cah.server.entity.RemotePlayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.PrintWriter;
-import java.util.UUID;
 
-public class JoinGameCommand extends Command {
+public class JoinGameCommand extends Command<JoinGameObject> {
 
     private static final Logger logger = LogManager.getLogger(JoinGameCommand.class);
     private final GameManager gameManager;
 
     public JoinGameCommand(BufferedReader in, PrintWriter out, GameManager gameManager) {
-        super(in, out);
+        super(in, out, JoinGameObject.class);
         this.gameManager = gameManager;
     }
 
     @Override
-    public void execute(String input) {
-        JSONObject object = new JSONObject(input);
-        Game game = gameManager.getGame(UUID.fromString(object.getString("game_uuid")));
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("method", "join_game_result");
+    public void execute(JoinGameObject object) {
+        Game game = gameManager.getGame(object.getGameUUID());
         if (game == null) {
-            jsonObject.put("result", "non_existent");
-            out.println(jsonObject);
-            out.flush();
+            JSONObject jsonObject = new JoinGameResultObject(JoinResult.NON_EXISTENT);
+            send(jsonObject);
             return;
         }
 
         if (game.isStarted()) {
-            jsonObject.put("result", "already_started");
-            out.println(jsonObject);
-            out.flush();
+            JSONObject jsonObject = new JoinGameResultObject(JoinResult.ALREADY_STARTED);
+            send(jsonObject);
             return;
         }
 
-        Player player = new RemotePlayer(object.getString("player_name"), UUID.fromString(object.getString("player_uuid")), out);
-        game.addPlayer(player);
-        game.notifyPlayerJoin(player);
-        game.notifyPlayerAboutEveryone(player);
+        Player playerWhoJoined = new RemotePlayer(object.getPlayerName(), object.getPlayerUUID(), out);
+        game.addPlayer(playerWhoJoined);
 
-        jsonObject.put("result", "successful");
-        out.println(jsonObject);
-        out.flush();
+        game.notifyPlayerJoin(playerWhoJoined);
+        game.notifyPlayerAboutEveryone(playerWhoJoined);
 
-        logger.info("Player {} with UUID {} joined a game with UUID {}", player.getName(), player.getUuid(), object.getString("game_uuid"));
+        JSONObject jsonObject = new JoinGameResultObject(JoinResult.SUCCESSFUL);
+        send(jsonObject);
+
+        logger.info("Player {} with UUID {} joined a game with UUID {}", playerWhoJoined.getName(), playerWhoJoined.getUuid(), object.getGameUUID());
     }
 }

@@ -5,7 +5,6 @@ import it.marcodemartino.cah.client.ui.elements.BigWhiteButton;
 import it.marcodemartino.cah.client.ui.elements.BlackCardElement;
 import it.marcodemartino.cah.client.ui.elements.WhiteCardElement;
 import it.marcodemartino.cah.game.cards.BlackCard;
-import it.marcodemartino.cah.game.cards.WhiteCard;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -59,21 +58,21 @@ public class ShowCardsScene extends InitPane {
         playersResults.setAlignment(Pos.CENTER);
         playersResults.setSpacing(20);
 
-        for (Entry<String, List<WhiteCard>> playedCardEntry : gameManager.getGame().getAllPlayedCards().entrySet()) {
+        for (Entry<String, List<String>> playedCardEntry : gameManager.getGame().getAllPlayedCards().entrySet()) {
             VBox playerContainer = createPlayerContainer(playedCardEntry);
             playersResults.getChildren().add(playerContainer);
         }
         return playersResults;
     }
 
-    private VBox createPlayerContainer(Entry<String, List<WhiteCard>> stringListEntry) {
+    private VBox createPlayerContainer(Entry<String, List<String>> stringListEntry) {
         VBox playerContainer = new VBox();
         String playerName = stringListEntry.getKey();
-        List<WhiteCard> whiteCards = stringListEntry.getValue();
+        List<String> whiteCards = stringListEntry.getValue();
 
         Label playerPlayed = new Label(playerName + " played:");
         playerContainer.getChildren().add(playerPlayed);
-        for (WhiteCard whiteCard : whiteCards) {
+        for (String whiteCard : whiteCards) {
             WhiteCardElement whiteCardElement = new WhiteCardElement(whiteCard, gameManager, widthProperty(), true);
             playerContainer.getChildren().add(whiteCardElement);
         }

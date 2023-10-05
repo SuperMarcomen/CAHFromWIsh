@@ -18,7 +18,7 @@ class StartGameActionTest {
         Thread.sleep(5000);
 
         GameManager gameManager = client.getGameManager();
-        Action createGame = new CreateGameAction();
+        Action createGame = new CreateGameAction(gson);
         Invoker invoker = new Invoker(client);
         invoker.execute(createGame);
         Thread.sleep(1000);

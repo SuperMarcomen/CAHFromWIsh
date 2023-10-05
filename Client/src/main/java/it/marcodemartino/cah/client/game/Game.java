@@ -4,7 +4,6 @@ import it.marcodemartino.cah.client.collections.HashSetChangeListener;
 import it.marcodemartino.cah.client.collections.ObservableHashSet;
 import it.marcodemartino.cah.game.Player;
 import it.marcodemartino.cah.game.cards.BlackCard;
-import it.marcodemartino.cah.game.cards.WhiteCard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,10 +19,10 @@ public class Game {
     private Player player;
     private final List<Player> allPlayers;
     private final ObservableHashSet<Player> playersWhoPlayed;
-    private final List<WhiteCard> whiteCards;
-    private final List<WhiteCard> selectedCards;
-    private final List<WhiteCard> playedCards;
-    private final Map<String, List<WhiteCard>> allPlayedCards;
+    private final List<String> whiteCards;
+    private final List<String> selectedCards;
+    private final List<String> playedCards;
+    private final Map<String, List<String>> allPlayedCards;
 
     public Game(UUID uuid) {
         this.uuid = uuid;
@@ -39,19 +38,19 @@ public class Game {
         return selectedCards.size() == newBlackCard.getNumberOfParameters();
     }
 
-    public boolean isCardSelected(WhiteCard whiteCard) {
+    public boolean isCardSelected(String whiteCard) {
         return selectedCards.contains(whiteCard);
     }
 
-    public void selectCard(WhiteCard whiteCard) {
+    public void selectCard(String whiteCard) {
         selectedCards.add(whiteCard);
     }
 
-    public void unselectCard(WhiteCard whiteCard) {
+    public void unselectCard(String whiteCard) {
         selectedCards.remove(whiteCard);
     }
 
-    public void setAllPlayedCards(Map<String, List<WhiteCard>> allPlayedCards) {
+    public void setAllPlayedCards(Map<String, List<String>> allPlayedCards) {
         this.allPlayedCards.clear();
         this.allPlayedCards.putAll(allPlayedCards);
     }
@@ -61,7 +60,7 @@ public class Game {
         playersWhoPlayed.clear();
     }
 
-    public void playCards(List<WhiteCard> cardsCurrentlyPlayed) {
+    public void playCards(List<String> cardsCurrentlyPlayed) {
         playedCards.addAll(cardsCurrentlyPlayed);
         whiteCards.removeAll(cardsCurrentlyPlayed);
         selectedCards.removeAll(cardsCurrentlyPlayed);
@@ -83,11 +82,11 @@ public class Game {
         return newBlackCard;
     }
 
-    public List<WhiteCard> getWhiteCards() {
+    public List<String> getWhiteCards() {
         return whiteCards;
     }
 
-    public void addWhiteCards(List<WhiteCard> whiteCards) {
+    public void addWhiteCards(List<String> whiteCards) {
         this.whiteCards.addAll(whiteCards);
     }
 
@@ -107,7 +106,7 @@ public class Game {
         return player;
     }
 
-    public Map<String, List<WhiteCard>> getAllPlayedCards() {
+    public Map<String, List<String>> getAllPlayedCards() {
         return allPlayedCards;
     }
 
@@ -115,7 +114,7 @@ public class Game {
         this.player = player;
     }
 
-    public List<WhiteCard> getSelectedCards() {
+    public List<String> getSelectedCards() {
         return selectedCards;
     }
 

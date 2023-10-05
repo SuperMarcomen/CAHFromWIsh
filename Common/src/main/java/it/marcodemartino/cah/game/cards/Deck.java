@@ -6,15 +6,15 @@ import java.util.List;
 
 public class Deck {
 
-    private final RandomArrayList<WhiteCard> whiteCards;
+    private final RandomArrayList<String> whiteCards;
     private final RandomArrayList<BlackCard> blackCards;
 
-    public Deck(RandomArrayList<WhiteCard> whiteCards, RandomArrayList<BlackCard> blackCards) {
+    public Deck(RandomArrayList<String> whiteCards, RandomArrayList<BlackCard> blackCards) {
         this.whiteCards = whiteCards;
         this.blackCards = blackCards;
     }
 
-    public WhiteCard getRandomWhiteCard() {
+    public String getRandomWhiteCard() {
         return whiteCards.removeRandom();
     }
 
@@ -22,7 +22,7 @@ public class Deck {
         return blackCards.removeRandom();
     }
 
-    public List<WhiteCard> getWhiteCards() {
+    public List<String> getWhiteCards() {
         return whiteCards;
     }
 

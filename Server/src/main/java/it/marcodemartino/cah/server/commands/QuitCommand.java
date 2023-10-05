@@ -1,35 +1,31 @@
 package it.marcodemartino.cah.server.commands;
 
+import it.marcodemartino.cah.json.client.QuitObject;
 import it.marcodemartino.cah.server.GameManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.PrintWriter;
-import java.util.UUID;
 
-public class QuitCommand extends Command {
+public class QuitCommand extends Command<QuitObject> {
 
     private final Logger logger = LogManager.getLogger(QuitCommand.class);
     private final GameManager gameManager;
     private final String clientIp;
 
     public QuitCommand(BufferedReader in, PrintWriter out, GameManager gameManager, String clientIp) {
-        super(in, out);
+        super(in, out, QuitObject.class);
         this.gameManager = gameManager;
         this.clientIp = clientIp;
     }
 
     @Override
-    public void execute(String input) {
+    public void execute(QuitObject object) {
         logger.info("Connection with IP terminated: {}", clientIp);
-
-        JSONObject jsonObject = new JSONObject(input);
         out.println("quit");
 
-        if (!jsonObject.has("player_uuid")) return;
-        UUID playerUUID = UUID.fromString(jsonObject.getString("player_uuid"));
-        gameManager.quitPlayer(playerUUID);
+        if (object.getPlayerUUID() == null) return;
+        gameManager.quitPlayer(object.getPlayerUUID());
     }
 }

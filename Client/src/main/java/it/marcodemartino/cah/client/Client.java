@@ -63,8 +63,8 @@ public class Client extends Thread {
     @Override
     public synchronized void start() {
         try {
-//            startConnection("127.0.0.1", 6666);
-            startConnection("129.152.19.2", 6666);
+            startConnection("127.0.0.1", 6666);
+//            startConnection("129.152.19.2", 6666);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -106,12 +106,12 @@ public class Client extends Thread {
     }
 
     private void registerActions() {
-        commands.put("game_created", new GameCreatedCommand(out, gameManager, this, sceneController));
-        commands.put("send_cards", new ReceiveCardsCommand(out, gameManager, sceneController));
-        commands.put("send_all_cards", new ReceivePlayedCardsCommand(out, gameManager, sceneController));
-        commands.put("notify_player_join", new NotifyPlayerJoinCommand(out, gameManager, sceneController));
-        commands.put("join_game_result", new JoinGameResultCommand(out, sceneController));
-        commands.put("notify_player_played", new NotifyPlayerPlayedCommand(out, gameManager));
+        commands.put("game_created", new GameCreatedCommand(gameManager, this, sceneController));
+        commands.put("send_cards", new ReceiveCardsCommand(gameManager, sceneController));
+        commands.put("send_all_cards", new ReceivePlayedCardsCommand(gameManager, sceneController));
+        commands.put("notify_player_join", new NotifyPlayerJoinCommand(gameManager, sceneController));
+        commands.put("join_game_result", new JoinGameResultCommand(sceneController));
+        commands.put("notify_player_played", new NotifyPlayerPlayedCommand(gameManager));
     }
 
     public GameManager getGameManager() {

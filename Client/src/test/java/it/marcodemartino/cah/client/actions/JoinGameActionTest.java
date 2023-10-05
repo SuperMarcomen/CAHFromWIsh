@@ -16,7 +16,7 @@ class JoinGameActionTest {
     void execute() throws IOException {
 
         GameManager gameManager = new GameManager();
-        Action createGame = new CreateGameAction();
+        Action createGame = new CreateGameAction(gson);
         Client client = new Client(gameManager, new SceneController());
         client.startConnection("127.0.0.1", 6666);
         Invoker invoker = new Invoker(client);

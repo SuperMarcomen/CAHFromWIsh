@@ -1,17 +1,18 @@
 package it.marcodemartino.cah.server.entity;
 
+import com.google.gson.Gson;
 import it.marcodemartino.cah.game.Player;
 import it.marcodemartino.cah.game.cards.BlackCard;
-import it.marcodemartino.cah.game.cards.Deck;
-import it.marcodemartino.cah.game.cards.WhiteCard;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import it.marcodemartino.cah.json.JSONObject;
+import it.marcodemartino.cah.json.server.NotifyPlayerJoinObject;
+import it.marcodemartino.cah.json.server.NotifyPlayerPlayedObject;
+import it.marcodemartino.cah.json.server.SendAllCardsObject;
+import it.marcodemartino.cah.json.server.SendCardsObject;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.UUID;
 
 public class RemotePlayer implements Player {
@@ -19,8 +20,9 @@ public class RemotePlayer implements Player {
     private final String name;
     private final UUID uuid;
     private final PrintWriter out;
-    private final List<WhiteCard> cards;
-    private final List<WhiteCard> playedCards;
+    private final List<String> cards;
+    private final List<String> playedCards;
+    private final Gson gson;
 
     public RemotePlayer(String name, UUID uuid, PrintWriter out) {
         this.name = name;
@@ -28,85 +30,42 @@ public class RemotePlayer implements Player {
         this.out = out;
         cards = new ArrayList<>();
         playedCards = new ArrayList<>();
+        gson = new Gson();
     }
 
     @Override
-    public void setPlayedCards(List<WhiteCard> playedCards) {
+    public void setPlayedCards(List<String> playedCards) {
         this.playedCards.clear();
         this.playedCards.addAll(playedCards);
         cards.removeAll(playedCards);
     }
 
     @Override
-    public void sendCardsToAllPlayers(Map<Player, List<WhiteCard>> cardsMap) {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("method", "send_all_cards");
-        JSONArray players = new JSONArray();
-        for (Entry<Player, List<WhiteCard>> playerListEntry : cardsMap.entrySet()) {
-            Player player = playerListEntry.getKey();
-            List<WhiteCard> playedWhiteCards = playerListEntry.getValue();
-            JSONObject playerBlock = new JSONObject();
-            playerBlock.put("player_name", player.getName());
-            JSONArray cardsObj = new JSONArray();
-            for (WhiteCard playedWhiteCard : playedWhiteCards) {
-                cardsObj.put(playedWhiteCard.getText());
-            }
-
-            playerBlock.put("played_cards", cardsObj);
-            players.put(playerBlock);
-        }
-        jsonObject.put("cards", players);
-        out.println(jsonObject);
-        out.flush();
-
+    public void sendCardsToAllPlayers(Map<Player, List<String>> cardsMap) {
+        JSONObject jsonObject = new SendAllCardsObject(cardsMap);
+        send(jsonObject);
     }
 
     @Override
-    public void sendCards(Deck deck) {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("method", "send_cards");
-        JSONArray whiteCards = new JSONArray();
-        for (WhiteCard whiteCard : deck.getWhiteCards()) {
-            whiteCards.put(whiteCard.getText());
-        }
-
-        JSONArray blackCards = new JSONArray();
-        for (BlackCard blackCard : deck.getBlackCards()) {
-            JSONObject card = new JSONObject();
-            card.put("text", blackCard.getText());
-            card.put("parameters", blackCard.getNumberOfParameters());
-            blackCards.put(card);
-        }
-
-        if (!whiteCards.isEmpty()) {
-            jsonObject.put("whitecards", whiteCards);
-        }
-
-        if (!blackCards.isEmpty()) {
-            jsonObject.put("blackcards", blackCards);
-        }
-
-        out.println(jsonObject);
-        out.flush();
+    public void sendCards(List<String> whiteCards, BlackCard blackCard) {
+        JSONObject jsonObject = new SendCardsObject(whiteCards, blackCard);
+        send(jsonObject);
     }
 
     @Override
     public void notifyPlayerJoin(Player player) {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("method", "notify_player_join");
-        jsonObject.put("player_uuid", player.getUuid());
-        jsonObject.put("player_name", player.getName());
-        out.println(jsonObject);
-        out.flush();
+        JSONObject jsonObject = new NotifyPlayerJoinObject(player.getUuid(), player.getName());
+        send(jsonObject);
     }
 
     @Override
     public void notifyPlayerPlayed(Player player) {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("method", "notify_player_played");
-        jsonObject.put("player_uuid", player.getUuid());
-        jsonObject.put("player_name", player.getName());
-        out.println(jsonObject);
+        JSONObject jsonObject = new NotifyPlayerPlayedObject(player.getUuid(), player.getName());
+        send(jsonObject);
+    }
+
+    private void send(JSONObject jsonObject) {
+        out.println(gson.toJson(jsonObject));
         out.flush();
     }
 
@@ -121,12 +80,12 @@ public class RemotePlayer implements Player {
     }
 
     @Override
-    public List<WhiteCard> getCards() {
+    public List<String> getCards() {
         return cards;
     }
 
     @Override
-    public List<WhiteCard> getPlayedCards() {
+    public List<String> getPlayedCards() {
         return playedCards;
     }
 }
