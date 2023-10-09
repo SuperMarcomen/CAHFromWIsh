@@ -1,6 +1,7 @@
 package it.marcodemartino.cah.client.actions;
 
 import com.google.gson.Gson;
+import it.marcodemartino.cah.json.GsonInstance;
 import it.marcodemartino.cah.json.client.CreateGameObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,7 +12,7 @@ public class CreateGameAction implements Action {
     private final Gson gson;
 
     public CreateGameAction() {
-        this.gson = new Gson();
+        this.gson = GsonInstance.get();
     }
 
     @Override

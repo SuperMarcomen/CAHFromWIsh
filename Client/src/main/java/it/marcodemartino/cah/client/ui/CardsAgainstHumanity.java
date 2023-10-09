@@ -5,13 +5,14 @@ import it.marcodemartino.cah.client.Invoker;
 import it.marcodemartino.cah.client.actions.Action;
 import it.marcodemartino.cah.client.actions.QuitAction;
 import it.marcodemartino.cah.client.game.GameManager;
+import it.marcodemartino.cah.client.ui.scenes.ChooseDecksScene;
 import it.marcodemartino.cah.client.ui.scenes.InitPane;
 import it.marcodemartino.cah.client.ui.scenes.JoinGameScene;
 import it.marcodemartino.cah.client.ui.scenes.MainScene;
 import it.marcodemartino.cah.client.ui.scenes.PlayCardsScene;
 import it.marcodemartino.cah.client.ui.scenes.SceneController;
 import it.marcodemartino.cah.client.ui.scenes.ShowCardsScene;
-import it.marcodemartino.cah.client.ui.scenes.StartGameScene;
+import it.marcodemartino.cah.client.ui.scenes.WaitJoinGameScene;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.text.Font;
@@ -44,10 +45,11 @@ public class CardsAgainstHumanity extends Application {
         Scene scene = new Scene(mainScene, 1500, 800);
         sceneController.setMain(scene);
 
-        sceneController.addScreen("start_game", new StartGameScene(invoker, gameManager, sceneController, primaryStage));
+        sceneController.addScreen("start_game", new WaitJoinGameScene(invoker, gameManager, sceneController, primaryStage));
         sceneController.addScreen("join_game", new JoinGameScene(invoker, gameManager, primaryStage));
         sceneController.addScreen("play_cards", new PlayCardsScene(gameManager, invoker, primaryStage));
         sceneController.addScreen("show_all_cards", new ShowCardsScene(gameManager, sceneController, primaryStage));
+        sceneController.addScreen("choose_decks", new ChooseDecksScene(sceneController, primaryStage, invoker, gameManager));
 
         scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
 

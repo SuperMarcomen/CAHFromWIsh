@@ -2,7 +2,7 @@ package it.marcodemartino.cah.client.ui.scenes;
 
 import it.marcodemartino.cah.client.Invoker;
 import it.marcodemartino.cah.client.actions.Action;
-import it.marcodemartino.cah.client.actions.StartGameAction;
+import it.marcodemartino.cah.client.actions.ChooseDekcsAction;
 import it.marcodemartino.cah.client.game.GameManager;
 import it.marcodemartino.cah.client.ui.elements.BigWhiteButton;
 import it.marcodemartino.cah.client.ui.elements.LabelWrapper;
@@ -17,13 +17,13 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
-public class StartGameScene extends InitPane {
+public class WaitJoinGameScene extends InitPane {
 
     private final Invoker invoker;
     private final GameManager gameManager;
     private final Text playersListText;
 
-    public StartGameScene(Invoker invoker, GameManager gameManager, SceneController sceneController, Stage primaryStage) {
+    public WaitJoinGameScene(Invoker invoker, GameManager gameManager, SceneController sceneController, Stage primaryStage) {
         super(primaryStage);
         this.invoker = invoker;
         this.gameManager = gameManager;
@@ -46,7 +46,7 @@ public class StartGameScene extends InitPane {
 
         HBox textsWrapper = wrapTexts(textFlow, playerInGame);
 
-        Button startButton = new BigWhiteButton("Start the game", widthProperty(), heightProperty());
+        Button startButton = new BigWhiteButton("Choose the decks", widthProperty(), heightProperty());
         startButton.setOnAction(e -> handleStartButtonClick());
 
         HBox startButtonWrapper = new HBox(startButton);
@@ -57,8 +57,9 @@ public class StartGameScene extends InitPane {
     }
 
     private void handleStartButtonClick() {
-        Action startAction = new StartGameAction(gameManager.getGame().getUuid());
-        invoker.execute(startAction);
+        Action chooseDekcsAction = new ChooseDekcsAction(gameManager.getGame().getUuid());
+        invoker.execute(chooseDekcsAction);
+
     }
 
     private HBox wrapTexts(TextFlow textFlow, TextFlow playerInGame) {

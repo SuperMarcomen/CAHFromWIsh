@@ -1,53 +1,35 @@
 package it.marcodemartino.cah.game.cards;
 
-import it.marcodemartino.cah.game.collections.RandomArrayList;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import it.marcodemartino.cah.json.GsonInstance;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collections;
+import java.util.Map;
 
 public class DiskDeckBuilder implements DeckBuilder {
 
     private static final Logger logger = LogManager.getLogger(DiskDeckBuilder.class);
 
     @Override
-    public Deck build(Path path) {
+    public Map<String, Deck> build(Path path) {
         try {
             String content = new String(Files.readAllBytes(path));
-            JSONObject jsonObject = new JSONObject(content);
+            Gson gson = GsonInstance.get();
 
-            RandomArrayList<String> whiteCards = parseWhiteCards(jsonObject);
-            RandomArrayList<BlackCard> blackCards = parseBlackCards(jsonObject);
-
-            return new Deck(whiteCards, blackCards);
+            Type deckMapType = new TypeToken<Map<String, Deck>>() {}.getType();
+            Map<String, Deck> deckMap = gson.fromJson(content, deckMapType);
+            logger.info("Loaded {} decks from disk", deckMap.values().size());
+            return deckMap;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new Deck(new RandomArrayList<>(), new RandomArrayList<>());
-    }
-
-    private RandomArrayList<String> parseWhiteCards(JSONObject jsonObject) {
-        logger.info("Parsing white cards from disk");
-        RandomArrayList<String> whiteCards = new RandomArrayList<>();
-        JSONArray whiteArray = jsonObject.getJSONArray("white");
-        for (int i = 0; i < whiteArray.length(); i++) {
-            whiteCards.add(whiteArray.getString(i));
-        }
-        return whiteCards;
-    }
-
-    private RandomArrayList<BlackCard> parseBlackCards(JSONObject jsonObject) {
-        logger.info("Parsing black cards from disk");
-        RandomArrayList<BlackCard> blackCards = new RandomArrayList<>();
-        JSONArray blackArray = jsonObject.getJSONArray("black");
-        for (int i = 0; i < blackArray.length(); i++) {
-            JSONObject blackObject = blackArray.getJSONObject(i);
-            blackCards.add(new BlackCard(blackObject.getString("text") ,blackObject.getInt("pick")));
-        }
-        return blackCards;
+        return Collections.emptyMap();
     }
 }

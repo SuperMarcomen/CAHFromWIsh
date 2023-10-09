@@ -8,7 +8,7 @@ import java.util.UUID;
 public class NotifyPlayerJoinObject implements JSONObject {
 
     @SerializedName("method")
-    private static final String METHOD = "notify_player_join";
+    private final String METHOD = "notify_player_join";
     @SerializedName("player_uuid")
     private final UUID playerUUID;
     @SerializedName("game_uuid")

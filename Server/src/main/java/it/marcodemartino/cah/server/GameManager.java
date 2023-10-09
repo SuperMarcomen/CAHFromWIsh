@@ -1,13 +1,11 @@
 package it.marcodemartino.cah.server;
 
 import it.marcodemartino.cah.game.Game;
-import it.marcodemartino.cah.game.cards.DeckBuilder;
+import it.marcodemartino.cah.game.cards.Deck;
 import it.marcodemartino.cah.game.cards.DiskDeckBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,12 +16,12 @@ import java.util.UUID;
 public class GameManager {
 
     private final Map<UUID, Game> games;
-    private final DeckBuilder deckBuilder;
+    private final DeckManager deckManager;
     private final Logger logger = LogManager.getLogger(GameManager.class);
 
     public GameManager() {
         games = new HashMap<>();
-        deckBuilder = new DiskDeckBuilder();
+        deckManager = new DeckManager(new DiskDeckBuilder());
     }
 
     public Game getGame(UUID uuid) {
@@ -31,10 +29,15 @@ public class GameManager {
     }
 
     public UUID createGame() {
-        Game game = new Game(deckBuilder.build(getPathFromClassPath("test.txt")));
         UUID uuid = UUID.randomUUID();
+        Game game = new Game(uuid);
         games.put(uuid, game);
         return uuid;
+    }
+
+    public void setDeck(Game game, List<String> decksNames) {
+        Deck deck = deckManager.getDeckFromNames(decksNames);
+        game.setDeck(deck);
     }
 
     public void quitPlayer(UUID playerUUID) {
@@ -53,7 +56,7 @@ public class GameManager {
         }
     }
 
-    private Path getPathFromClassPath(String fileName) {
-        return Paths.get(fileName);
+    public DeckManager getDeckManager() {
+        return deckManager;
     }
 }

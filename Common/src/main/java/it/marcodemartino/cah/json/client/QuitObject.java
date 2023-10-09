@@ -8,7 +8,7 @@ import java.util.UUID;
 public class QuitObject implements JSONObject {
 
     @SerializedName("method")
-    private static final String METHOD = "quit";
+    private final String METHOD = "quit";
     @SerializedName("player_uuid")
     private final UUID playerUUID;
 

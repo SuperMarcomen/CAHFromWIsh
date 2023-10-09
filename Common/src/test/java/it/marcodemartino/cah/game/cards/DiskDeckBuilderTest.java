@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -18,8 +19,7 @@ class DiskDeckBuilderTest {
     @DisplayName("Read and parse cards from disk")
     void build() throws URISyntaxException {
         DiskDeckBuilder diskDeckBuilder = new DiskDeckBuilder();
-        Deck deck = diskDeckBuilder.build(Paths.get(ClassLoader.getSystemResource("test.txt").toURI()));
-        assertFalse(deck.getBlackCards().isEmpty());
-        assertFalse(deck.getWhiteCards().isEmpty());
+        Map<String, Deck> decks = diskDeckBuilder.build(Paths.get("cah-cards-full.json"));
+        assertFalse(decks.isEmpty());
     }
 }

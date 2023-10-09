@@ -1,6 +1,7 @@
 package it.marcodemartino.cah.client.commands;
 
 import com.google.gson.Gson;
+import it.marcodemartino.cah.json.GsonInstance;
 import it.marcodemartino.cah.json.JSONObject;
 
 public abstract class Command<T extends JSONObject> {
@@ -10,7 +11,7 @@ public abstract class Command<T extends JSONObject> {
 
     public Command(Class<T> typeClass) {
         this.typeClass = typeClass;
-        this.gson = new Gson();
+        this.gson = GsonInstance.get();
     }
 
     public void execute(String input) {

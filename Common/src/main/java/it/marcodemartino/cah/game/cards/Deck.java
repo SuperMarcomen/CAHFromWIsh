@@ -6,12 +6,23 @@ import java.util.List;
 
 public class Deck {
 
+    private final String name;
     private final RandomArrayList<String> whiteCards;
     private final RandomArrayList<BlackCard> blackCards;
+    private final boolean official;
 
-    public Deck(RandomArrayList<String> whiteCards, RandomArrayList<BlackCard> blackCards) {
+    public Deck(String name, RandomArrayList<String> whiteCards, RandomArrayList<BlackCard> blackCards, boolean official) {
+        this.name = name;
         this.whiteCards = whiteCards;
         this.blackCards = blackCards;
+        this.official = official;
+    }
+
+    public Deck() {
+        whiteCards = new RandomArrayList<>();
+        blackCards = new RandomArrayList<>();
+        name = "Custom";
+        official = false;
     }
 
     public String getRandomWhiteCard() {
@@ -22,11 +33,40 @@ public class Deck {
         return blackCards.removeRandom();
     }
 
+    public void addAll(Deck deck) {
+        this.whiteCards.addAll(deck.getWhiteCards());
+        this.blackCards.addAll(deck.getBlackCards());
+    }
+
+    public void addAllWhiteCards(List<String> whiteCards) {
+        this.whiteCards.addAll(whiteCards);
+    }
+
+    public void addAllBlackCards(List<BlackCard> blackCards) {
+        this.blackCards.addAll(blackCards);
+    }
+
     public List<String> getWhiteCards() {
-        return whiteCards;
+        return List.copyOf(whiteCards);
+    }
+
+    public int getWhiteCardsSize() {
+        return whiteCards.size();
     }
 
     public List<BlackCard> getBlackCards() {
-        return blackCards;
+        return List.copyOf(blackCards);
+    }
+
+    public int getBlackCardsSize() {
+        return blackCards.size();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isOfficial() {
+        return official;
     }
 }

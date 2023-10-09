@@ -3,6 +3,7 @@ package it.marcodemartino.cah.client.actions;
 import com.google.gson.Gson;
 import it.marcodemartino.cah.client.game.Game;
 import it.marcodemartino.cah.client.game.GameManager;
+import it.marcodemartino.cah.json.GsonInstance;
 import it.marcodemartino.cah.json.JSONObject;
 import it.marcodemartino.cah.json.client.PlayCardsObject;
 
@@ -16,9 +17,9 @@ public class PlayCardsAction implements Action {
     private final Gson gson;
 
     public PlayCardsAction(List<String> whiteCards, GameManager gameManager) {
-        this.whiteCards = whiteCards;
+        this.whiteCards = List.copyOf(whiteCards);
         this.gameManager = gameManager;
-        this.gson = new Gson();
+        this.gson = GsonInstance.get();
     }
 
     @Override
@@ -26,6 +27,7 @@ public class PlayCardsAction implements Action {
         Game game = gameManager.getGame();
         UUID playerUUID = game.getPlayer().getUuid();
         JSONObject jsonObject = new PlayCardsObject(whiteCards, playerUUID, game.getUuid());
+        game.playCards(whiteCards);
         return gson.toJson(jsonObject);
     }
 }

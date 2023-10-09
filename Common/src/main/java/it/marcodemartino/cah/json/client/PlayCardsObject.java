@@ -9,7 +9,7 @@ import java.util.UUID;
 public class PlayCardsObject implements JSONObject {
 
     @SerializedName("method")
-    private static final String METHOD = "play_cards";
+    private final String METHOD = "play_cards";
     @SerializedName("played_cards")
     private final List<String> playedCards;
     @SerializedName("player_uuid")

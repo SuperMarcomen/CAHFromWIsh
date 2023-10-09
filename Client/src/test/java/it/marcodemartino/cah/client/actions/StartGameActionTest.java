@@ -18,7 +18,7 @@ class StartGameActionTest {
         Thread.sleep(5000);
 
         GameManager gameManager = client.getGameManager();
-        Action createGame = new CreateGameAction(gson);
+        Action createGame = new CreateGameAction();
         Invoker invoker = new Invoker(client);
         invoker.execute(createGame);
         Thread.sleep(1000);
@@ -27,7 +27,7 @@ class StartGameActionTest {
         Action joinGame = new JoinGameAction(gameManager);
         invoker.execute(joinGame);
 
-        Action startGame = new StartGameAction(gameManager.getGame().getUuid());
+        Action startGame = new StartGameAction(gameManager.getGame().getUuid(), decksNames);
         invoker.execute(startGame);
         Thread.sleep(5000);
 

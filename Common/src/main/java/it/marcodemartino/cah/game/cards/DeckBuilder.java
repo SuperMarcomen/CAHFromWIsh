@@ -1,8 +1,9 @@
 package it.marcodemartino.cah.game.cards;
 
 import java.nio.file.Path;
+import java.util.Map;
 
 public interface DeckBuilder {
 
-    Deck build(Path path);
+    Map<String, Deck> build(Path path);
 }

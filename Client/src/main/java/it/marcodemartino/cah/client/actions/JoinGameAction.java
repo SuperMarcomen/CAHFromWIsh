@@ -3,6 +3,7 @@ package it.marcodemartino.cah.client.actions;
 import com.google.gson.Gson;
 import it.marcodemartino.cah.client.game.GameManager;
 import it.marcodemartino.cah.game.Player;
+import it.marcodemartino.cah.json.GsonInstance;
 import it.marcodemartino.cah.json.JSONObject;
 import it.marcodemartino.cah.json.client.JoinGameObject;
 import org.apache.logging.log4j.LogManager;
@@ -16,7 +17,7 @@ public class JoinGameAction implements Action {
 
     public JoinGameAction(GameManager gameManager) {
         this.gameManager = gameManager;
-        this.gson = new Gson();
+        this.gson = GsonInstance.get();
     }
 
     @Override

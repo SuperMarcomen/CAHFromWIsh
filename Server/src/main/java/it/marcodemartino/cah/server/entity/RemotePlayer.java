@@ -4,6 +4,9 @@ import com.google.gson.Gson;
 import it.marcodemartino.cah.game.Player;
 import it.marcodemartino.cah.game.cards.BlackCard;
 import it.marcodemartino.cah.json.JSONObject;
+import it.marcodemartino.cah.json.client.CheckDeckObject;
+import it.marcodemartino.cah.json.server.AllDecksInfoObject;
+import it.marcodemartino.cah.json.server.DeckInfoObject;
 import it.marcodemartino.cah.json.server.NotifyPlayerJoinObject;
 import it.marcodemartino.cah.json.server.NotifyPlayerPlayedObject;
 import it.marcodemartino.cah.json.server.SendAllCardsObject;
@@ -61,6 +64,18 @@ public class RemotePlayer implements Player {
     @Override
     public void notifyPlayerPlayed(Player player) {
         JSONObject jsonObject = new NotifyPlayerPlayedObject(player.getUuid(), player.getName());
+        send(jsonObject);
+    }
+
+    @Override
+    public void sendDecksInfos(List<DeckInfoObject> deckInfos) {
+        JSONObject jsonObject = new AllDecksInfoObject(deckInfos);
+        send(jsonObject);
+    }
+
+    @Override
+    public void notifyDeckSelected(String deckName, UUID gameUUID, boolean selected) {
+        JSONObject jsonObject = new CheckDeckObject(deckName, uuid, gameUUID, selected);
         send(jsonObject);
     }
 

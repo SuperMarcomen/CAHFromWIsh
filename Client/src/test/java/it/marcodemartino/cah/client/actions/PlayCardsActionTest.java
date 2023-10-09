@@ -18,7 +18,7 @@ class PlayCardsActionTest {
         Client client = new Client(new GameManager(), new SceneController());
         client.start();
         GameManager gameManager = client.getGameManager();
-        Action createGame = new CreateGameAction(gson);
+        Action createGame = new CreateGameAction();
         Invoker invoker = new Invoker(client);
         invoker.execute(createGame);
         Thread.sleep(1000);

@@ -1,6 +1,7 @@
 package it.marcodemartino.cah.server;
 
-import com.google.gson.Gson;
+import it.marcodemartino.cah.server.commands.CheckDeckCommand;
+import it.marcodemartino.cah.server.commands.ChooseDecksCommand;
 import it.marcodemartino.cah.server.commands.Command;
 import it.marcodemartino.cah.server.commands.CreateNewGameCommand;
 import it.marcodemartino.cah.server.commands.JoinGameCommand;
@@ -74,11 +75,12 @@ public class ClientHandler extends Thread {
     }
 
     private void registerCommands() {
-        Gson gson = new Gson();
-        commands.put("new_game", new CreateNewGameCommand(in, out, gameManager, gson));
+        commands.put("new_game", new CreateNewGameCommand(in, out, gameManager));
         commands.put("join_game", new JoinGameCommand(in, out, gameManager));
         commands.put("start_game", new StartGameCommand(in, out, gameManager));
         commands.put("play_cards", new PlayCardsCommand(in, out, gameManager));
+        commands.put("choose_decks", new ChooseDecksCommand(in, out, gameManager, gameManager.getDeckManager()));
+        commands.put("check_deck", new CheckDeckCommand(in, out, gameManager));
         commands.put("quit", new QuitCommand(in, out, gameManager, client.getRemoteSocketAddress().toString()));
     }
 

@@ -2,6 +2,7 @@ package it.marcodemartino.cah.client.game;
 
 import it.marcodemartino.cah.game.Player;
 import it.marcodemartino.cah.game.cards.BlackCard;
+import it.marcodemartino.cah.json.server.DeckInfoObject;
 
 import java.util.List;
 import java.util.Map;
@@ -40,6 +41,16 @@ public class DummyPlayer implements Player {
 
     @Override
     public void notifyPlayerPlayed(Player player) {
+
+    }
+
+    @Override
+    public void sendDecksInfos(List<DeckInfoObject> deckInfos) {
+
+    }
+
+    @Override
+    public void notifyDeckSelected(String deckName, UUID gameUUID, boolean selected) {
 
     }
 

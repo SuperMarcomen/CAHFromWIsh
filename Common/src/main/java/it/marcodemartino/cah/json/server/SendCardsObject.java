@@ -10,7 +10,7 @@ import java.util.List;
 public class SendCardsObject implements JSONObject {
 
     @SerializedName("method")
-    private static final String METHOD = "send_cards";
+    private final String METHOD = "send_cards";
     @SerializedName("white_cards")
     private final List<String> whiteCards;
     private final BlackCard blackcard;

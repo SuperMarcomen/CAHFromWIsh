@@ -1,6 +1,5 @@
 package it.marcodemartino.cah.server.commands;
 
-import com.google.gson.Gson;
 import it.marcodemartino.cah.json.JSONObject;
 import it.marcodemartino.cah.json.client.CreateGameObject;
 import it.marcodemartino.cah.json.server.GameCreatedObject;
@@ -18,7 +17,7 @@ public class CreateNewGameCommand extends Command<CreateGameObject> {
     private final GameManager gameManager;
 
 
-    public CreateNewGameCommand(BufferedReader in, PrintWriter out, GameManager gameManager, Gson gson) {
+    public CreateNewGameCommand(BufferedReader in, PrintWriter out, GameManager gameManager) {
         super(in, out, CreateGameObject.class);
         this.gameManager = gameManager;
     }

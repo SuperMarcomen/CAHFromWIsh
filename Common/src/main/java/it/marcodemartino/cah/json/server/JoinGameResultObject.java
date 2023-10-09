@@ -7,7 +7,7 @@ import it.marcodemartino.cah.json.JoinResult;
 public class JoinGameResultObject implements JSONObject {
 
     @SerializedName("method")
-    private static final String METHOD = "join_game_result";
+    private final String METHOD = "join_game_result";
     @SerializedName("result")
     private final JoinResult joinResult;
 

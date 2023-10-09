@@ -113,3 +113,94 @@
 .circleDisabled {
     -fx-fill: red;
 }
+
+.check-box {
+    -fx-font-size: 1.2em;
+    -fx-text-fill: gray;
+}
+
+.check-box .box {
+    -fx-padding: 10px;
+}
+
+.scroll-pane {
+    -fx-background-color: #2A2929;
+}
+
+.check-box .box {
+    -fx-background-color: null;
+}
+
+.check-box .box .mark {
+    -fx-background-radius: 5px;
+    -fx-background-color: transparent;
+    -fx-border-color: #716a6a;
+    -fx-border-width: 2;
+    -fx-border-radius: 5;
+    -fx-shape: "M0,0 h16 v16 h-16 v-16 Z";
+}
+
+.check-box:selected {
+    -fx-text-fill: white;
+}
+
+.check-box:selected .box .mark {
+    -fx-text-fill: white;
+
+    -fx-border-radius: 5;
+    -fx-border-color: #948e8e;
+    -fx-background-color: #948e8e;
+    -fx-shape: "M0,0 h16 v16 h-16 v-16 Z";
+}
+
+.check-box:hover .box .mark {
+    -fx-border-radius: 5;
+    -fx-border-color: #948e8e;
+    -fx-shape: "M0,0 h16 v16 h-16 v-16 Z";
+}
+
+.scroll-bar {
+    -fx-pref-width: 10px;
+}
+
+.scroll-bar:vertical .increment-button ,
+.scroll-bar:vertical .decrement-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0.0em;
+    -fx-padding: 0.0 10.0 0.0 0.0;
+
+}
+
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow{
+    -fx-shape: " ";
+    -fx-padding: 0.15em 0.0;
+}
+
+.scroll-bar:vertical .increment-arrow,
+.scroll-bar:vertical .decrement-arrow{
+    -fx-shape: " ";
+    -fx-padding: 0.0 0.15em;
+}
+
+.scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color:transparent;
+}
+
+.increment-button, .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: white;
+    -fx-background-radius: 5em;
+}

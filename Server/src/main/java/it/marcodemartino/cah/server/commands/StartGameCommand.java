@@ -24,6 +24,7 @@ public class StartGameCommand extends Command<StartGameObject> {
     public void execute(StartGameObject object) {
         UUID gameUUID = object.getGameUUID();
         Game game = gameManager.getGame(gameUUID);
+        gameManager.setDeck(game, object.getDecksNames());
         game.start();
         game.sendStartCardsToAllPlayer();
         logger.info("Started a game with UUID {}", gameUUID);

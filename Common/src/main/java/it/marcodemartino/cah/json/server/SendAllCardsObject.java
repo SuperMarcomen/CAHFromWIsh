@@ -12,7 +12,7 @@ import java.util.Map.Entry;
 public class SendAllCardsObject implements JSONObject {
 
     @SerializedName("method")
-    private static final String METHOD = "send_all_cards";
+    private final String METHOD = "send_all_cards";
     @SerializedName("played_cards")
     private final Map<String, List<String>> playedCards;
 

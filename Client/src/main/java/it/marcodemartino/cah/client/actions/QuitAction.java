@@ -2,6 +2,7 @@ package it.marcodemartino.cah.client.actions;
 
 import com.google.gson.Gson;
 import it.marcodemartino.cah.client.game.GameManager;
+import it.marcodemartino.cah.json.GsonInstance;
 import it.marcodemartino.cah.json.JSONObject;
 import it.marcodemartino.cah.json.client.QuitObject;
 import org.apache.logging.log4j.LogManager;
@@ -15,7 +16,7 @@ public class QuitAction implements Action {
 
     public QuitAction(GameManager gameManager) {
         this.gameManager = gameManager;
-        gson = new Gson();
+        gson = GsonInstance.get();
     }
 
     @Override

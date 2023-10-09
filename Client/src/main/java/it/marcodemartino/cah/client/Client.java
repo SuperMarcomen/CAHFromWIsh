@@ -1,14 +1,17 @@
 package it.marcodemartino.cah.client;
 
+import it.marcodemartino.cah.client.commands.CheckDeckCommand;
 import it.marcodemartino.cah.client.commands.Command;
 import it.marcodemartino.cah.client.commands.GameCreatedCommand;
 import it.marcodemartino.cah.client.commands.JoinGameResultCommand;
 import it.marcodemartino.cah.client.commands.NotifyPlayerJoinCommand;
 import it.marcodemartino.cah.client.commands.NotifyPlayerPlayedCommand;
 import it.marcodemartino.cah.client.commands.ReceiveCardsCommand;
+import it.marcodemartino.cah.client.commands.ReceiveDecksCommand;
 import it.marcodemartino.cah.client.commands.ReceivePlayedCardsCommand;
 import it.marcodemartino.cah.client.game.GameManager;
 import it.marcodemartino.cah.client.ui.scenes.SceneController;
+import it.marcodemartino.cah.json.GsonInstance;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
@@ -50,6 +53,9 @@ public class Client extends Thread {
             if (input.isEmpty()) continue;
 
             if (input.get().equals("quit")) break;
+
+            it.marcodemartino.cah.json.EmptyJsonObject jsonObject = GsonInstance.get().fromJson(input.get(), it.marcodemartino.cah.json.EmptyJsonObject.class);
+            logger.info(jsonObject.getMethod());
 
             String methodName = new JSONObject(input.get())
                     .getString("method");
@@ -112,6 +118,8 @@ public class Client extends Thread {
         commands.put("notify_player_join", new NotifyPlayerJoinCommand(gameManager, sceneController));
         commands.put("join_game_result", new JoinGameResultCommand(sceneController));
         commands.put("notify_player_played", new NotifyPlayerPlayedCommand(gameManager));
+        commands.put("all_decks_info", new ReceiveDecksCommand(sceneController));
+        commands.put("check_deck", new CheckDeckCommand(sceneController));
     }
 
     public GameManager getGameManager() {
