@@ -2,6 +2,7 @@ package it.marcodemartino.cah.game.cards;
 
 import it.marcodemartino.cah.game.collections.RandomArrayList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Deck {
@@ -55,7 +56,12 @@ public class Deck {
     }
 
     public List<BlackCard> getBlackCards() {
-        return List.copyOf(blackCards);
+        List<BlackCard> newList = new ArrayList<>();
+        for (BlackCard blackCard : blackCards) {
+            BlackCard newBlackCard = new BlackCard(blackCard.getText(), blackCard.getNumberOfParameters());
+            newList.add(newBlackCard);
+        }
+        return List.copyOf(newList);
     }
 
     public int getBlackCardsSize() {

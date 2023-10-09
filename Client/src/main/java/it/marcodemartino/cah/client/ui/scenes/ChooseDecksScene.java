@@ -57,12 +57,18 @@ public class ChooseDecksScene extends InitPane {
 
         Label label = new Label("Select the decks you want");
 
+
         CheckBox selectAll = new CheckBox("Select all");
         selectAll.selectedProperty().addListener((observable, oldValue, newValue) -> {
             for (CheckBox checkBox : checkBoxes.values()) {
                 checkBox.setSelected(newValue);
             }
         });
+
+        Label cardsAmount = new Label("Cards amount");
+        Region spacer1 = new Region();
+        HBox.setHgrow(spacer1, Priority.ALWAYS);
+        HBox topRowWrapper = new HBox(selectAll, spacer1, cardsAmount);
 
         TextField searchField = new TextField();
         searchField.setPromptText("Search...");
@@ -102,7 +108,7 @@ public class ChooseDecksScene extends InitPane {
         HBox startButtonWrapper = new HBox(startButton);
         startButtonWrapper.setAlignment(Pos.CENTER);
 
-        mainContainer.getChildren().addAll(label, searchField, selectAll, scrollPane, startButtonWrapper);
+        mainContainer.getChildren().addAll(label, searchField, topRowWrapper, scrollPane, startButtonWrapper);
         getChildren().add(mainContainer);
     }
 
