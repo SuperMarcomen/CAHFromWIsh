@@ -106,16 +106,12 @@
     -fx-padding: 20;
 }
 
-.circleEnabled {
-    -fx-fill: green;
-}
-
-.circleDisabled {
-    -fx-fill: red;
+.circleEnabled, .circleDisabled {
+    -fx-fill: #ECECEC;
 }
 
 .check-box {
-    -fx-font-size: 1.2em;
+    -fx-font-size: 1.3em;
     -fx-text-fill: gray;
 }
 

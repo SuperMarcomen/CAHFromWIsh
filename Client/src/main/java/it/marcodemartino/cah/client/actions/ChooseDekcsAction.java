@@ -22,7 +22,7 @@ public class ChooseDekcsAction implements Action {
 
     @Override
     public String execute() {
-        logger.info("Sending request to choose decks");
+        logger.info("Sending request to send the decks to choose");
         JSONObject jsonObject = new ChooseDecksObject(gameUUID);
         return gson.toJson(jsonObject);
     }

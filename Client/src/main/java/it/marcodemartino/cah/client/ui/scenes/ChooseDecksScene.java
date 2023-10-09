@@ -16,6 +16,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -78,7 +80,16 @@ public class ChooseDecksScene extends InitPane {
             checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
                 handleCheckBoxClick(deckInfo.getName(), newValue);
             });
-            checkBoxContainer.getChildren().add(checkBox);
+
+            Region spacer = new Region();
+            HBox.setHgrow(spacer, Priority.ALWAYS);
+            int cardTotal = deckInfo.getWhiteCardsAmount() + deckInfo.getBlackCardsAmount();
+            Label cardsLabel = new Label(String.valueOf(cardTotal));
+            HBox container = new HBox(checkBox, spacer, cardsLabel);
+            container.setPadding(new Insets(0, 20, 0, 0));
+
+
+            checkBoxContainer.getChildren().add(container);
         }
         sceneController.setDecksCheckboxesProperty(decksCheckboxesProperty);
 

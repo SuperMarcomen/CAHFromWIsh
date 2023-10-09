@@ -53,10 +53,10 @@ public class ClientHandler extends Thread {
 
             if (input.isEmpty()) return;
 
+            // TODO switch to this
             JSONObject jsonObject = getJSONObjectOrNull(input);
             if (jsonObject == null) continue;
 
-            logger.info(jsonObject);
             String methodName = jsonObject.getString("method");
             Command command = commands.get(methodName);
             if (command == null) continue;
